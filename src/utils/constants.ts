@@ -12,3 +12,9 @@ export const LINKED_IN_PROMPTS = [
   `I want you to act as a linkedin user that creates insightful comments on different posts to gain followers. Here is the content of the post "{content}"`,
   `I want you to act as a linkedin user that add comments on different posts to engage other people and have more impressions. Here is what the post about "{content}"`,
 ];
+
+export const INSTAGRAM_PROMPTS = [
+  `I want you to act as an instagram user that puts comments on different posts to engage other people and have more followers. Here is the post "{content}"`,
+  `I want you to act as an instagram user that creates insightful comments on different posts to gain followers. Here is the content of the post "{content}"`,
+  `I want you to act as an instagram user that add comments on different posts to engage other people and have more impressions. Here is what the post about "{content}"`,
+];

@@ -1,5 +1,7 @@
 import ChatGPTIcon from "../components/ChatGPTIcon";
-import { CHATGPT_BTN_ID } from "./constants";
+import { getComment } from "./actions";
+import { CHATGPT_BTN_ID, INSTAGRAM_PROMPTS } from "./constants";
+import { reelsContentBodyParser } from "./parser";
 
 type PostType = "FEED" | "REELS";
 
@@ -84,20 +86,36 @@ export const handler = () => {
         }
       }
     } else {
-      console.log(
-        document.querySelectorAll(
-          `div[style="height: 16px; width: 100%;"]`
-        )?.[1]?.previousElementSibling
-      );
+      for (const el of Array.from([
+        ...document.querySelectorAll(
+          `div[aria-disabled="false"][role="button"] > div > div > span:first-of-type`
+        ),
+      ]).reverse()) {
+        if (isInViewport(el)) {
+          const parent =
+            el.parentElement?.parentElement?.parentElement?.parentElement;
+          const moreBtn = el.nextElementSibling;
+          if (moreBtn?.textContent?.includes("more")) {
+            (moreBtn as HTMLButtonElement)?.click();
+          }
+
+          await delay(2000);
+
+          body = reelsContentBodyParser(parent?.innerText || "");
+
+          break;
+        }
+      }
     }
 
-    console.log(body);
+    const comment = await getComment(INSTAGRAM_PROMPTS, body);
 
-    //   todo: get content of post + expand "more"
-
+    commentInputEl.value = comment; // todo: set comment value not working
     commentInputEl.setAttribute("placeholder", "Add a comment..");
-    //   btn.removeAttribute("disabled");
-    //   btn.removeAttribute("loading");
+    commentInputEl.removeAttribute("disabled");
+
+    btn.removeAttribute("disabled");
+    btn.removeAttribute("loading");
   });
 };
 
@@ -118,4 +136,15 @@ const createChatGPTBtn = (
   chatGPTBtn.innerHTML = ChatGPTIcon(22, color, CHATGPT_BTN_ID);
 
   return chatGPTBtn;
+};
+
+const isInViewport = (el: Element) => {
+  const rect = el.getBoundingClientRect();
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.bottom <=
+      (window.innerHeight || document.documentElement.clientHeight) &&
+    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+  );
 };

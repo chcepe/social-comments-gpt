@@ -40,9 +40,11 @@ export const handler = () => {
     btn.setAttribute("loading", "true");
 
     const content =
-      wrapper.querySelector(
-        '.feed-shared-inline-show-more-text span[dir="ltr"]'
-      )?.textContent || "";
+      (
+        wrapper.querySelector(
+          '.feed-shared-inline-show-more-text span[dir="ltr"]'
+        ) as HTMLElement
+      )?.innerText || "";
     const comment = await getComment(LINKED_IN_PROMPTS, content);
 
     commentInputEl.innerHTML = comment;
