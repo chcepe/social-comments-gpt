@@ -1,4 +1,4 @@
-import { appendStyles } from "./utils/actions";
+import appendStyles from "./utils/styles";
 import { ALLOWED_DOMAINS, Domains } from "./utils/constants";
 import {
   injector as linkedInInjector,

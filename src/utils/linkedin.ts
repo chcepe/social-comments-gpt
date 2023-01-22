@@ -1,6 +1,6 @@
 import ChatGPTIcon from "../components/ChatGPTIcon";
-import { getComment } from "./actions";
 import { CHATGPT_BTN_ID, LINKED_IN_PROMPTS } from "./constants";
+import { getComment, delay } from "./shared";
 
 export const injector = () => {
   document
@@ -46,8 +46,15 @@ export const handler = () => {
         ) as HTMLElement
       )?.innerText || "";
     const comment = await getComment(LINKED_IN_PROMPTS, content);
-
-    commentInputEl.innerHTML = comment;
+    if (comment.length) {
+      commentInputEl.innerHTML = comment;
+    } else {
+      commentInputEl.setAttribute(
+        "placeholder",
+        "Something went wrong with GhatGPT. Try again."
+      );
+      delay(3000);
+    }
 
     commentInputEl.setAttribute("data-placeholder", "Add a comment..");
     btn.removeAttribute("disabled");

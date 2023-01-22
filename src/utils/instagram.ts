@@ -1,7 +1,7 @@
 import ChatGPTIcon from "../components/ChatGPTIcon";
-import { getComment } from "./actions";
 import { CHATGPT_BTN_ID, INSTAGRAM_PROMPTS } from "./constants";
 import { reelsContentBodyParser } from "./parser";
+import { getComment, delay } from "./shared";
 
 type PostType = "FEED" | "REELS";
 
@@ -51,7 +51,7 @@ export const handler = () => {
     if (!wrapper) return;
 
     const commentInputEl = wrapper.querySelector("textarea")!;
-    commentInputEl.value = "";
+    imitateKeyInput(commentInputEl, "");
 
     commentInputEl.setAttribute("placeholder", "ChatGPT is thinking...");
     commentInputEl.setAttribute("disabled", "true");
@@ -109,8 +109,16 @@ export const handler = () => {
     }
 
     const comment = await getComment(INSTAGRAM_PROMPTS, body);
+    if (comment.length) {
+      imitateKeyInput(commentInputEl, comment);
+    } else {
+      commentInputEl.setAttribute(
+        "placeholder",
+        "Something went wrong with GhatGPT. Try again."
+      );
+      delay(3000);
+    }
 
-    commentInputEl.value = comment; // todo: set comment value not working
     commentInputEl.setAttribute("placeholder", "Add a comment..");
     commentInputEl.removeAttribute("disabled");
 
@@ -119,7 +127,20 @@ export const handler = () => {
   });
 };
 
-const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+const imitateKeyInput = (el: HTMLTextAreaElement, keyChar: string) => {
+  const keyboardEventInit = {
+    bubbles: false,
+    cancelable: false,
+    composed: false,
+    key: "",
+    code: "",
+    location: 0,
+  };
+  el.dispatchEvent(new KeyboardEvent("keydown", keyboardEventInit));
+  el.value = keyChar;
+  el.dispatchEvent(new KeyboardEvent("keyup", keyboardEventInit));
+  el.dispatchEvent(new Event("change", { bubbles: true }));
+};
 
 const insertAfter = (referenceNode: Element, newNode: Element) => {
   referenceNode?.parentNode?.insertBefore(newNode, referenceNode.nextSibling);
