@@ -1,10 +1,16 @@
 # social-comments-gpt
 
-A chrome extension that creates engaging comments on social media, powered by ChatGPT.
+A chrome extension that creates engaging comments on social media, powered by OpenAI's ChatGPT. 
+
+Currently supports LinkedIn and Instagram.
+
+
+https://user-images.githubusercontent.com/25549784/214015786-c433c3bd-e537-42b5-ae99-b1ef6fd52960.mov
+
 
 ## Setup
 
-### Developing
+### Development
 
 ```
 yarn
@@ -29,3 +35,7 @@ yarn watch
 3. Click on the "Create an API Key" button to generate a new API key.
 
 Once the API key is generated, you can copy it and set it on the social-comments-gpt options.
+
+<img width="1552" alt="Screenshot 2023-01-23 at 11 17 19 AM" src="https://user-images.githubusercontent.com/25549784/214015984-75ca37e5-27cf-47ee-980e-0f4f79050566.png">
+
+
