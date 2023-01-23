@@ -1,7 +1,7 @@
 import ChatGPTIcon from "../components/ChatGPTIcon";
 import { CHATGPT_BTN_ID, INSTAGRAM_PROMPTS } from "./constants";
 import { reelsContentBodyParser } from "./parser";
-import { getComment, delay } from "./shared";
+import { getComment, delay, getOpenAIKey } from "./shared";
 
 type PostType = "FEED" | "REELS";
 
@@ -38,11 +38,14 @@ export const injector = () => {
     });
 };
 
-export const handler = () => {
+export const handler = async () => {
   document.body.addEventListener("click", async (e) => {
     const target = e.target as Element;
     const btn = target?.closest(`#${CHATGPT_BTN_ID}`);
     if (!btn) return;
+
+    const openAIKey = await getOpenAIKey();
+    if (!openAIKey) return alert("Please set OpenAI key.");
 
     const isFromFeed = !window.location.pathname.includes("reels");
     const wrapper = target?.closest(
@@ -108,15 +111,15 @@ export const handler = () => {
       }
     }
 
-    const comment = await getComment(INSTAGRAM_PROMPTS, body);
+    const comment = await getComment(openAIKey, INSTAGRAM_PROMPTS, body);
     if (comment.length) {
       imitateKeyInput(commentInputEl, comment);
     } else {
       commentInputEl.setAttribute(
         "placeholder",
-        "Something went wrong with GhatGPT. Try again."
+        "ChatGPT failed. Maybe update key and try again."
       );
-      delay(3000);
+      await delay(3000);
     }
 
     commentInputEl.setAttribute("placeholder", "Add a comment..");

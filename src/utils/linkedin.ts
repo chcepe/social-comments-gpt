@@ -1,6 +1,6 @@
 import ChatGPTIcon from "../components/ChatGPTIcon";
 import { CHATGPT_BTN_ID, LINKED_IN_PROMPTS } from "./constants";
-import { getComment, delay } from "./shared";
+import { getComment, delay, getOpenAIKey } from "./shared";
 
 export const injector = () => {
   document
@@ -23,11 +23,14 @@ export const injector = () => {
     });
 };
 
-export const handler = () => {
+export const handler = async () => {
   document.body.addEventListener("click", async (e) => {
     const target = e.target as Element;
     const btn = target?.closest(`#${CHATGPT_BTN_ID}`);
     if (!btn) return;
+
+    const openAIKey = await getOpenAIKey();
+    if (!openAIKey) return alert("Please set OpenAI key.");
 
     const wrapper = target?.closest(".feed-shared-update-v2");
     if (!wrapper) return;
@@ -45,15 +48,16 @@ export const handler = () => {
           '.feed-shared-inline-show-more-text span[dir="ltr"]'
         ) as HTMLElement
       )?.innerText || "";
-    const comment = await getComment(LINKED_IN_PROMPTS, content);
+
+    const comment = await getComment(openAIKey, LINKED_IN_PROMPTS, content);
     if (comment.length) {
       commentInputEl.innerHTML = comment;
     } else {
       commentInputEl.setAttribute(
-        "placeholder",
-        "Something went wrong with GhatGPT. Try again."
+        "data-placeholder",
+        "ChatGPT failed. Maybe update key and try again."
       );
-      delay(3000);
+      await delay(3000);
     }
 
     commentInputEl.setAttribute("data-placeholder", "Add a comment..");

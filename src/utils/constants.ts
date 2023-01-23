@@ -1,5 +1,7 @@
 export const CHATGPT_BTN_ID = "chatgpt-btn";
 
+export const OPEN_AI_KEY = "social-comments-openapi-key";
+
 export enum Domains {
   LinkedIn = "linkedin.com",
   Instagram = "instagram.com",

@@ -1,4 +1,14 @@
+import { OPEN_AI_KEY } from "./constants";
+
+export const getOpenAIKey = (): Promise<string> =>
+  new Promise((resolve, reject) =>
+    chrome.storage.sync.get([OPEN_AI_KEY], (result: Record<string, string>) =>
+      resolve(result?.[OPEN_AI_KEY] || "")
+    )
+  );
+
 export const getComment = async (
+  openAIkey: string,
   prompts: string[],
   content: string
 ): Promise<string> => {
@@ -14,17 +24,13 @@ export const getComment = async (
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization:
-        "Bearer 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",
+      Authorization: `Bearer ${openAIkey}`,
     },
     body: JSON.stringify(body),
   };
 
   const resp = await fetch("https://api.openai.com/v1/completions", options);
-  if (!resp.ok) {
-    const message = `An error has occured: ${resp.status}`;
-    throw new Error(message);
-  }
+  if (!resp.ok) return "";
 
   const chatGPTResp = await resp.json();
 

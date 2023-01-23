@@ -9,7 +9,7 @@ import {
   handler as instagramHandler,
 } from "./utils/instagram";
 
-const service: Record<Domains, [() => void, () => void]> = {
+const service: Record<Domains, [() => void, () => Promise<void>]> = {
   [Domains.LinkedIn]: [linkedInInjector, linkedInHandler],
   [Domains.Instagram]: [instagramInjector, instagramHandler],
 };
