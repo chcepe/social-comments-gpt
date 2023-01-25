@@ -2,6 +2,7 @@ import * as React from "react";
 import ReactDOM from "react-dom";
 
 import { OPEN_AI_KEY } from "../utils/constants";
+import SettingsIcon from "../components/SettingsIcon";
 import Logo from "../components/Logo";
 import "./popup.css";
 
@@ -18,10 +19,16 @@ const Popup = () => {
     chrome.storage.sync.set({ [OPEN_AI_KEY]: openAIKey }, () => {});
   }, [openAIKey]);
 
+  const handleOptions = () => {
+    chrome.runtime.openOptionsPage();
+  };
+
   return (
     <>
       <div className="container">
-        <Logo />
+        <Logo className="logo" />
+
+        {/* OpenAPI Key */}
         <label htmlFor="open-api-key">Enter your OpenAPI key:</label>
         <input
           id="open-api-key"
@@ -33,6 +40,8 @@ const Popup = () => {
             setOpenAIKey(e.target.value);
           }}
         />
+
+        {/* Help */}
         <p>
           Have some questions? More information{" "}
           <a
@@ -42,6 +51,12 @@ const Popup = () => {
             here.
           </a>
         </p>
+
+        {/* Settings */}
+        <div onClick={handleOptions} className="settings-btn">
+          <span>Options</span>
+          <SettingsIcon />
+        </div>
       </div>
     </>
   );

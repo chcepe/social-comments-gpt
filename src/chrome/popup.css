@@ -3,21 +3,21 @@
 .container {
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-direction: column;
   width: 300px;
-  height: 200px;
+  height: auto;
   padding: 24px;
+  position: relative;
 }
 
-.container svg {
-  margin: 16px 0;
+.logo {
+  margin-bottom: 24px;
 }
 
 .input-api-key {
   padding: 15px 20px;
-  border-radius: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   width: 100%;
   text-align: center;
   margin: 8px 0;
@@ -25,8 +25,7 @@
 
 .input-api-key:focus {
   outline: none !important;
-  border-color: rgba(0, 0, 0, 0.1);
-  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.4);
 }
 
 p {
@@ -37,4 +36,29 @@ p {
 p a {
   font-weight: bold;
   text-decoration: none;
+}
+
+.settings-btn {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.8);
+}
+
+.settings-btn:hover {
+  color: #fff;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.settings-btn,
+.settings-btn svg {
+  transition: all 0.2s ease;
+}
+
+.settings-btn:hover svg {
+  fill: #fff;
+  transform: rotate(30deg);
 }

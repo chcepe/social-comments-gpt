@@ -12,6 +12,11 @@
     "128": "icon128.png"
   },
 
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+
   "action": {
     "default_icon": "action-icon.png",
     "default_popup": "popup.html"
