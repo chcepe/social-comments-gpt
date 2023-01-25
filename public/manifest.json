@@ -13,7 +13,7 @@
   },
 
   "action": {
-    "default_icon": "icon16.png",
+    "default_icon": "action-icon.png",
     "default_popup": "popup.html"
   },
 
