@@ -12,7 +12,7 @@ const Section: React.FC<Props> = ({ title, desc, children }) => {
     <Styled.Wrapper>
       <Styled.Head>
         <h1>{title}</h1>
-        {desc && <>{desc}</>}
+        {desc && <p>{desc}</p>}
       </Styled.Head>
       <Styled.Body>{children}</Styled.Body>
     </Styled.Wrapper>

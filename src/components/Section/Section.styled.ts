@@ -13,6 +13,11 @@ export const Head = styled.div`
   h1 {
     margin: 0;
   }
+
+  p {
+    color: rgba(0, 0, 0, 0.7);
+    margin: 0;
+  }
 `;
 
 export const Body = styled.div`

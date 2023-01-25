@@ -1,12 +1,3 @@
-import { OPEN_AI_KEY } from "./constants";
-
-export const getOpenAIKey = (): Promise<string> =>
-  new Promise((resolve, reject) =>
-    chrome.storage.sync.get([OPEN_AI_KEY], (result: Record<string, string>) =>
-      resolve(result?.[OPEN_AI_KEY] || "")
-    )
-  );
-
 export const getComment = async (
   openAIkey: string,
   prompts: string[],

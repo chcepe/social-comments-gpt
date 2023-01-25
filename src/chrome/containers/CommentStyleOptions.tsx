@@ -5,22 +5,23 @@ import Loading from "../../components/Loading";
 import {
   COMMENTS_STYLE_OPTS,
   COMMENTS_STYLE_OPT_DEFAULT,
-  OPT_COMMENT_STYLE,
-} from "../../utils/constants";
+} from "../../utils/options";
+import { getStorageValue, setStorageValue } from "../../utils/storage";
 
 const CommentStyleOptions = () => {
   const [selected, setSelected] = React.useState<string>();
   const [loading, setLoading] = React.useState<boolean>(true);
 
   React.useEffect(() => {
-    chrome.storage.sync.get([OPT_COMMENT_STYLE], (result) => {
+    (async () => {
+      const key = await getStorageValue("opt-comment-style");
       setLoading(false);
-      if (result?.[OPT_COMMENT_STYLE]) setSelected(result[OPT_COMMENT_STYLE]);
-    });
+      setSelected(key);
+    })();
   }, []);
 
   React.useEffect(() => {
-    chrome.storage.sync.set({ [OPT_COMMENT_STYLE]: selected }, () => {});
+    setStorageValue("opt-comment-style", selected);
   }, [selected]);
 
   if (loading) return <Loading />;

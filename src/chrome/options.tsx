@@ -6,10 +6,11 @@ import Logo from "../components/Logo";
 import Section, { Props as SectionProps } from "../components/Section";
 import CommentStyleOptions from "./containers/CommentStyleOptions";
 import HashtagOptions from "./containers/HashtagOptions";
+import Prompts from "./containers/Prompts";
 
 const SECTIONS: (SectionProps & { comp: JSX.Element })[] = [
   {
-    title: "Style of comment",
+    title: "Comment style",
     desc: "Whether generated comments will be professional, informal, etc.",
     comp: <CommentStyleOptions />,
   },
@@ -18,18 +19,25 @@ const SECTIONS: (SectionProps & { comp: JSX.Element })[] = [
     desc: "Would you like to include hashtags for every generate comments?",
     comp: <HashtagOptions />,
   },
+  {
+    title: "Prompts",
+    desc: "Prompts that will be sent on ChatGPT when generating a comment.",
+    comp: <Prompts />,
+  },
 ];
 
 const Options = () => {
   return (
     <Container>
       <Logo />
-      {SECTIONS.map((section) => {
+      {SECTIONS.map((section, i) => {
         const { comp, ...rest } = section;
-        return <Section {...rest}>{comp}</Section>;
+        return (
+          <Section key={section.title + i} {...rest}>
+            {comp}
+          </Section>
+        );
       })}
-
-      <Section title="Prompts">Style of comment</Section>
     </Container>
   );
 };

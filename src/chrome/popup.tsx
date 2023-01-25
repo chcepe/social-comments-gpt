@@ -1,22 +1,24 @@
 import * as React from "react";
 import ReactDOM from "react-dom";
 
-import { OPEN_AI_KEY } from "../utils/constants";
 import SettingsIcon from "../components/SettingsIcon";
 import Logo from "../components/Logo";
+import { getStorageValue, setStorageValue } from "../utils/storage";
 import "./popup.css";
 
 const Popup = () => {
   const [openAIKey, setOpenAIKey] = React.useState<string>("");
 
   React.useEffect(() => {
-    chrome.storage.sync.get([OPEN_AI_KEY], (result) => {
-      if (result?.[OPEN_AI_KEY]) setOpenAIKey(result[OPEN_AI_KEY]);
-    });
+    (async () => {
+      const key = await getStorageValue("social-comments-openapi-key");
+      setOpenAIKey(key);
+    })();
   }, []);
 
   React.useEffect(() => {
-    chrome.storage.sync.set({ [OPEN_AI_KEY]: openAIKey }, () => {});
+    if (openAIKey.length)
+      setStorageValue("social-comments-openapi-key", openAIKey);
   }, [openAIKey]);
 
   const handleOptions = () => {

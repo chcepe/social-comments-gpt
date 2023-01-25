@@ -1,6 +1,8 @@
 import ChatGPTIcon from "../components/ChatGPTIcon";
-import { CHATGPT_BTN_ID, LINKED_IN_PROMPTS } from "./constants";
-import { getComment, delay, getOpenAIKey } from "./shared";
+import { CHATGPT_BTN_ID } from "./constants";
+import { LINKED_IN_PROMPTS } from "./prompts";
+import { getComment, delay } from "./shared";
+import { getStorageValue } from "./storage";
 
 export const injector = () => {
   document
@@ -29,7 +31,7 @@ export const handler = async () => {
     const btn = target?.closest(`#${CHATGPT_BTN_ID}`);
     if (!btn) return;
 
-    const openAIKey = await getOpenAIKey();
+    const openAIKey = await getStorageValue("social-comments-openapi-key");
     if (!openAIKey) return alert("Please set OpenAI key.");
 
     const wrapper = target?.closest(".feed-shared-update-v2");

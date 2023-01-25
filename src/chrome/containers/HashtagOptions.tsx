@@ -2,25 +2,23 @@ import * as React from "react";
 
 import Checkbox from "../../components/Checkbox";
 import Loading from "../../components/Loading";
-import {
-  HASHTAG_OPTS,
-  HASHTAG_OPT_DEFAULT,
-  OPT_HASHTAGS,
-} from "../../utils/constants";
+import { HASHTAG_OPTS, HASHTAG_OPT_DEFAULT } from "../../utils/options";
+import { getStorageValue, setStorageValue } from "../../utils/storage";
 
 const HashtagOptions = () => {
   const [selected, setSelected] = React.useState<string>();
   const [loading, setLoading] = React.useState<boolean>(true);
 
   React.useEffect(() => {
-    chrome.storage.sync.get([OPT_HASHTAGS], (result) => {
+    (async () => {
+      const key = await getStorageValue("opt-hashtag-option");
       setLoading(false);
-      if (result?.[OPT_HASHTAGS]) setSelected(result[OPT_HASHTAGS]);
-    });
+      setSelected(key);
+    })();
   }, []);
 
   React.useEffect(() => {
-    chrome.storage.sync.set({ [OPT_HASHTAGS]: selected }, () => {});
+    setStorageValue("opt-hashtag-option", selected);
   }, [selected]);
 
   if (loading) return <Loading />;
