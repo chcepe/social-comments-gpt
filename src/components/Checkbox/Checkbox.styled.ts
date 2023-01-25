@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const Wrapper = styled.div<{ isInline?: boolean }>`
   display: flex;
@@ -22,12 +22,18 @@ export const CheckboxItem = styled.div<{ selected?: boolean }>`
     fill: rgba(0, 0, 0, 0.3);
   }
 
-  &:hover {
-    color: #fff;
-    background: linear-gradient(133.43deg, #4d0089 0%, #235f19 102.89%);
+  ${({ selected }) => selected && `${selectedCSS}`}
 
-    svg {
-      fill: #fff;
-    }
+  &:hover {
+    ${({ selected }) => (selected ? `opacity: 0.9;` : `${selectedCSS}`)}
+  }
+`;
+
+const selectedCSS = css`
+  color: #fff;
+  background: linear-gradient(133.43deg, #4d0089 0%, #235f19 102.89%);
+
+  svg {
+    fill: #fff;
   }
 `;

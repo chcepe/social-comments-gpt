@@ -13,19 +13,36 @@ interface Props {
   radio?: boolean;
 }
 
-const Checkbox: React.FC<Props> = ({ options, selected, onChange, inline }) => {
+const Checkbox: React.FC<Props> = ({
+  options,
+  selected,
+  onChange,
+  inline,
+  radio,
+}) => {
   const handleClick = (value: string) => {
-    onChange([...selected, value]);
+    onChange([...selected, value].filter((v) => v));
   };
 
   return (
     <Styled.Wrapper isInline={inline}>
-      {options.map((option) => (
-        <Styled.CheckboxItem selected={selected?.includes(option.value)}>
-          <Icon state={State.Normal} />
-          <span>{option.label}</span>
-        </Styled.CheckboxItem>
-      ))}
+      {options.map((option) => {
+        let state = State.Normal;
+        const isSelected = selected?.includes(option.value);
+        if (isSelected)
+          state = radio ? State.RadioSelected : State.CheckboxSelected;
+
+        return (
+          <Styled.CheckboxItem
+            key={option.value}
+            onClick={() => handleClick(option.value)}
+            selected={isSelected}
+          >
+            <Icon state={state} />
+            <span>{option.label}</span>
+          </Styled.CheckboxItem>
+        );
+      })}
     </Styled.Wrapper>
   );
 };

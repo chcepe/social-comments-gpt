@@ -2,7 +2,10 @@ import { CheckboxOption } from "../components/Checkbox/Checkbox";
 
 export const CHATGPT_BTN_ID = "chatgpt-btn";
 
+// Chrome storage
 export const OPEN_AI_KEY = "social-comments-openapi-key";
+export const OPT_COMMENT_STYLE = "opt-comment-style";
+export const OPT_HASHTAGS = "opt-hashtag-option";
 
 export enum Domains {
   LinkedIn = "linkedin.com",
@@ -27,12 +30,21 @@ export const INSTAGRAM_PROMPTS = [
 
 export enum CommentsStyle {
   PROFESSIONAL = "professional",
+  INFORMAL = "informal",
   DIRECT = "direct",
   FRIENDLY = "friendly",
   ANYTHING = "anything",
 }
 
-export const COMMENTS_STYLE_OPTIONS: CheckboxOption[] = [
+export const COMMENTS_STYLE_OPTS: CheckboxOption[] = [
+  {
+    value: CommentsStyle.ANYTHING,
+    label: "Anything",
+  },
+  {
+    value: CommentsStyle.INFORMAL,
+    label: "Informal",
+  },
   {
     value: CommentsStyle.PROFESSIONAL,
     label: "Professional",
@@ -45,21 +57,21 @@ export const COMMENTS_STYLE_OPTIONS: CheckboxOption[] = [
     value: CommentsStyle.FRIENDLY,
     label: "Friendly",
   },
-  {
-    value: CommentsStyle.ANYTHING,
-    label: "Anything",
-  },
 ];
+
+export const COMMENTS_STYLE_OPT_DEFAULT = CommentsStyle.ANYTHING;
 
 // Hashtag Options
 export enum HashtagOptions {
-  YES = "yes",
+  ALWAYS = "Always",
   NO = "no",
   RANDOMLY = "randomly",
 }
 
-export const HASHTAG_OPTIONS: CheckboxOption[] = [
-  { value: HashtagOptions.YES, label: "Yes" },
-  { value: HashtagOptions.NO, label: "No" },
+export const HASHTAG_OPTS: CheckboxOption[] = [
   { value: HashtagOptions.RANDOMLY, label: "Randomly" },
+  { value: HashtagOptions.ALWAYS, label: "Always" },
+  { value: HashtagOptions.NO, label: "No" },
 ];
+
+export const HASHTAG_OPT_DEFAULT = HashtagOptions.RANDOMLY;
