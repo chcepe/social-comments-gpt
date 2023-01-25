@@ -12,6 +12,7 @@
 
 .logo {
   margin-bottom: 24px;
+  height: 48px;
 }
 
 .input-api-key {
@@ -50,7 +51,7 @@ p a {
 
 .settings-btn:hover {
   color: #fff;
-  background: rgba(0, 0, 0, 0.8);
+  background: linear-gradient(133.43deg, #4d0089 0%, #235f19 102.89%);
 }
 
 .settings-btn,
