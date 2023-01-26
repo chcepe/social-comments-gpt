@@ -14,7 +14,7 @@ const CommentStyleOptions = () => {
 
   React.useEffect(() => {
     (async () => {
-      const key = await getStorageValue("opt-comment-style");
+      const key = await getStorageValue<string>("opt-comment-style");
       setLoading(false);
       setSelected(key);
     })();

@@ -1,6 +1,6 @@
 import * as React from "react";
 
-const IcInstagram: React.FC<React.HTMLAttributes<SVGElement>> = (props) => (
+const IcInstagram = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     width={24}
     height={24}

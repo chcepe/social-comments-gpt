@@ -1,7 +1,7 @@
 import * as React from "react";
 import ReactDOM from "react-dom";
 
-import SettingsIcon from "../components/SettingsIcon";
+import ICSettings from "../components/ICSettings";
 import Logo from "../components/Logo";
 import { getStorageValue, setStorageValue } from "../utils/storage";
 import "./popup.css";
@@ -11,7 +11,7 @@ const Popup = () => {
 
   React.useEffect(() => {
     (async () => {
-      const key = await getStorageValue("social-comments-openapi-key");
+      const key = await getStorageValue<string>("social-comments-openapi-key");
       setOpenAIKey(key);
     })();
   }, []);
@@ -57,7 +57,7 @@ const Popup = () => {
         {/* Settings */}
         <div onClick={handleOptions} className="settings-btn">
           <span>Options</span>
-          <SettingsIcon />
+          <ICSettings width={14} height={14} />
         </div>
       </div>
     </>

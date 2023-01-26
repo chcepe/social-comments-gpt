@@ -11,7 +11,7 @@ const HashtagOptions = () => {
 
   React.useEffect(() => {
     (async () => {
-      const key = await getStorageValue("opt-hashtag-option");
+      const key = await getStorageValue<string>("opt-hashtag-option");
       setLoading(false);
       setSelected(key);
     })();

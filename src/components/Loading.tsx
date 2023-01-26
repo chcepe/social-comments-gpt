@@ -1,6 +1,6 @@
 import * as React from "react";
 
-const Loading: React.FC<React.HTMLAttributes<SVGElement>> = (props) => (
+const Loading = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     width={30}
     height={30}

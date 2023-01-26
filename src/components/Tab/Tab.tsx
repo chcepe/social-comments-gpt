@@ -10,10 +10,13 @@ export type TabItem = {
 
 interface Props {
   tabs: TabItem[];
+  initialTab?: number;
 }
 
-const Tab: React.FC<Props> = ({ tabs }) => {
-  const [activeTab, setActiveTab] = React.useState(0);
+const Tab: React.FC<Props> = ({ tabs, initialTab }) => {
+  const [activeTab, setActiveTab] = React.useState(
+    initialTab && initialTab > 0 ? initialTab : 0
+  );
 
   const handleTabChange = (index: number) => {
     setActiveTab(index);

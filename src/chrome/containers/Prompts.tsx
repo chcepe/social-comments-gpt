@@ -1,22 +1,41 @@
 import * as React from "react";
 
-import IcInstagram from "../../components/IcInstagram";
-import IcLinkedIn from "../../components/IcLinkedIn";
-import Tab, { TabItem } from "../../components/Tab";
+import PrompsForm from "../../components/PromptsList/PrompsForm";
+import Loading from "../../components/Loading";
+import Section from "../../components/Section";
+import { Domains } from "../../utils/constants";
+import { getStorageValue } from "../../utils/storage";
 
-const PROMPT_TABS: TabItem[] = [
-  {
-    title: "Instagram",
-    comp: <>{/* todo: insta body */}</>,
-    icon: <IcInstagram />,
-  },
-  {
-    title: "LinkedIn",
-    comp: <>{/* todo: linkedin body */}</>,
-    icon: <IcLinkedIn />,
-  },
-];
+interface Props {
+  type: Domains;
+}
 
-const Prompts = () => <Tab tabs={PROMPT_TABS} />;
+const DomainLabel: Record<Domains, string> = {
+  [Domains.LinkedIn]: "LinkedIn",
+  [Domains.Instagram]: "Instagram",
+};
+
+const Prompts: React.FC<Props> = ({ type }) => {
+  const [loading, setLoading] = React.useState<boolean>(true);
+  const [values, setValues] = React.useState<string[]>();
+
+  const handleChange = (value: string[]) => {};
+
+  React.useEffect(() => {
+    (async () => {
+      const key = await getStorageValue<string[]>("opt-insta-prompts");
+      setLoading(false);
+      setValues(key);
+    })();
+  }, []);
+
+  if (loading) return <Loading />;
+
+  return (
+    <Section title={`Prompts for ${DomainLabel[type]}`}>
+      <PrompsForm onChange={handleChange} values={[]} />
+    </Section>
+  );
+};
 
 export default Prompts;

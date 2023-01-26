@@ -31,7 +31,9 @@ export const handler = async () => {
     const btn = target?.closest(`#${CHATGPT_BTN_ID}`);
     if (!btn) return;
 
-    const openAIKey = await getStorageValue("social-comments-openapi-key");
+    const openAIKey = await getStorageValue<string>(
+      "social-comments-openapi-key"
+    );
     if (!openAIKey) return alert("Please set OpenAI key.");
 
     const wrapper = target?.closest(".feed-shared-update-v2");

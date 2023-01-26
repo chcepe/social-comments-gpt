@@ -1,6 +1,6 @@
 import * as React from "react";
 
-const Logo: React.FC<React.HTMLAttributes<SVGElement>> = (props) => (
+const Logo = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     width={382}
     height={83}

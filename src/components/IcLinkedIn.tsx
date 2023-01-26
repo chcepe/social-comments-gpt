@@ -1,6 +1,6 @@
 import * as React from "react";
 
-const IcLinkedIn: React.FC<React.HTMLAttributes<SVGElement>> = (props) => (
+const IcLinkedIn = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     width={18}
     height={18}
@@ -15,4 +15,5 @@ const IcLinkedIn: React.FC<React.HTMLAttributes<SVGElement>> = (props) => (
     />
   </svg>
 );
+
 export default IcLinkedIn;
