@@ -1,5 +1,6 @@
 import { Config } from "./config";
 import { Domains } from "./constants";
+import { HashtagOptions } from "./options";
 import { createPrompt } from "./prompts";
 
 export const getComment = async (
@@ -28,9 +29,15 @@ export const getComment = async (
 
   const chatGPTResp = await resp.json();
 
-  return (chatGPTResp?.["choices"]?.[0]?.["text"] || "")
+  let comment = (chatGPTResp?.["choices"]?.[0]?.["text"] || "")
     .replace(/^\s+|\s+$/g, "")
     .replace(/(^"|"$)/g, "");
+
+  if (config["opt-hashtag-option"] === HashtagOptions.NO) {
+    comment = comment.replace(/#\w+/g, "");
+  }
+
+  return comment;
 };
 
 export const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));

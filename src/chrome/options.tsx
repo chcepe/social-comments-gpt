@@ -30,7 +30,7 @@ const SECTIONS: (SectionProps & { comp: JSX.Element })[] = [
   },
   {
     title: "Allow hashtags",
-    desc: "Would you like to include hashtags for every generated comments?",
+    desc: "Would you like to allow hashtags in generated comments?",
     comp: <HashtagOptions />,
   },
   {

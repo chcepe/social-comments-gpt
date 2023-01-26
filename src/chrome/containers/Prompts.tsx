@@ -35,7 +35,7 @@ const Prompts: React.FC<Props> = ({ type }) => {
   return (
     <Section
       title={`Prompts for ${DomainLabel[type]}`}
-      desc="Random prompts that will be sent to OpenAI. {postContent} is replaced by post content."
+      desc="Random prompts that will be sent to OpenAI. {postContent} is replaced by content of the post."
     >
       <PrompsForm onChange={setPrompts} items={prompts} />
     </Section>

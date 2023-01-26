@@ -89,12 +89,12 @@ const TextArea: React.FC<TextAreaProps> = ({ value, type, onSubmit }) => {
             setText(e.target.value);
             setError("");
           }}
-          $edit={type === "edit"}
+          isEdit={type === "edit"}
           $error={error.length > 0}
         />
         <span>{text.length}</span>
         {showSubmitBtn && (
-          <SubmitBtn onClick={handleSubmit} $linear className="submit-btn" />
+          <SubmitBtn onClick={handleSubmit} isLinear className="submit-btn" />
         )}
       </Styled.InputWrapper>
 

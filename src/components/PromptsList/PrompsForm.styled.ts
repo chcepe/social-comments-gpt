@@ -35,7 +35,7 @@ export const InputWrapper = styled.div`
 `;
 
 export const Input = styled(TextareaAutosize)<{
-  $edit?: boolean;
+  isEdit?: boolean;
   $error?: boolean;
 }>`
   width: 100%;
@@ -44,7 +44,7 @@ export const Input = styled(TextareaAutosize)<{
   resize: none;
   border: 1px solid
     ${({ $error }) => ($error ? "#ff0000" : "rgba(0, 0, 0, 0.1)")};
-  border-radius: ${({ $edit }) => ($edit ? "0" : "16px")};
+  border-radius: ${({ isEdit }) => (isEdit ? "0" : "16px")};
   padding: 24px;
   box-sizing: border-box;
 

@@ -70,27 +70,7 @@ export const handler = async () => {
     let body = "";
 
     if (isFromFeed) {
-      for (const spanEl of wrapper.querySelectorAll("span")) {
-        if (
-          spanEl.parentElement?.previousElementSibling?.innerHTML ===
-            "&nbsp;" ||
-          spanEl?.parentElement?.previousElementSibling?.tagName === "H2"
-        ) {
-          const hasMore =
-            spanEl?.parentElement?.innerHTML?.includes(`role="button"`);
-          if (hasMore) {
-            (
-              spanEl?.parentElement?.querySelector(
-                `div[role="button"]`
-              ) as HTMLButtonElement
-            )?.click();
-            await delay(1000);
-          }
-
-          body = spanEl?.textContent || "";
-          break;
-        }
-      }
+      body = await getFeedContent(wrapper);
     } else {
       for (const el of Array.from([
         ...document.querySelectorAll(
@@ -131,6 +111,32 @@ export const handler = async () => {
     btn.removeAttribute("disabled");
     btn.removeAttribute("loading");
   });
+};
+
+const getFeedContent = async (wrapper: Element): Promise<string> => {
+  let content = "";
+  for (const spanEl of wrapper.querySelectorAll("span")) {
+    if (
+      spanEl.parentElement?.previousElementSibling?.innerHTML === "&nbsp;" ||
+      spanEl?.parentElement?.previousElementSibling?.tagName === "H2"
+    ) {
+      const hasMore =
+        spanEl?.parentElement?.innerHTML?.includes(`role="button"`);
+      if (hasMore) {
+        (
+          spanEl?.parentElement?.querySelector(
+            `div[role="button"]`
+          ) as HTMLButtonElement
+        )?.click();
+        await delay(3000);
+      }
+
+      content = wrapper.querySelector("h1")?.textContent || "";
+      break;
+    }
+  }
+
+  return content;
 };
 
 const imitateKeyInput = (el: HTMLTextAreaElement, keyChar: string) => {

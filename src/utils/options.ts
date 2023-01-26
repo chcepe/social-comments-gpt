@@ -52,14 +52,12 @@ export const COMMENTS_STYLE_OPTS: CheckboxOption[] = [
 
 // Hashtag Options
 export enum HashtagOptions {
-  ALWAYS = "Always",
-  NO = "no",
   RANDOMLY = "randomly",
+  NO = "no",
 }
 
 export const HASHTAG_OPT_DEFAULT = HashtagOptions.RANDOMLY;
 export const HASHTAG_OPTS: CheckboxOption[] = [
-  { value: HashtagOptions.RANDOMLY, label: "Randomly" },
-  { value: HashtagOptions.ALWAYS, label: "Always" },
-  { value: HashtagOptions.NO, label: "No" },
+  { value: HashtagOptions.RANDOMLY, label: "Yes" },
+  { value: HashtagOptions.NO, label: "No, please" },
 ];

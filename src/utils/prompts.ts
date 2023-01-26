@@ -33,7 +33,6 @@ export const createPrompt = (
   prompt = prompt.replace("{postContent}", content);
 
   if (
-    config["opt-hashtag-option"] === HashtagOptions.RANDOMLY &&
     config["opt-comment-style"] === CommentsStyle.ANYTHING &&
     !config["opt-excluded-words"].length
   ) {
@@ -42,16 +41,6 @@ export const createPrompt = (
 
   // Append options
   prompt += "\n\nAs a commentator on that post you must follow these rules:";
-
-  // Hashtag option
-  switch (config["opt-hashtag-option"]) {
-    case HashtagOptions.ALWAYS:
-      prompt += " please respond with hashtags;";
-      break;
-    case HashtagOptions.NO:
-      prompt += " please respond strictly without hashtags;";
-      prompt = prompt.replace(/\b\#\w+/g, "");
-  }
 
   if (config["opt-excluded-words"].length) {
     const words = config["opt-excluded-words"]
