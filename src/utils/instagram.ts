@@ -1,9 +1,9 @@
 import ChatGPTIcon from "../components/ChatGPTIcon";
-import { CHATGPT_BTN_ID } from "./constants";
+
+import { CHATGPT_BTN_ID, Domains } from "./constants";
 import { reelsContentBodyParser } from "./parser";
-import { INSTAGRAM_PROMPTS } from "./prompts";
 import { getComment, delay } from "./shared";
-import { getStorageValue } from "./storage";
+import getConfig from "./config";
 
 type PostType = "FEED" | "REELS";
 
@@ -46,10 +46,9 @@ export const handler = async () => {
     const btn = target?.closest(`#${CHATGPT_BTN_ID}`);
     if (!btn) return;
 
-    const openAIKey = await getStorageValue<string>(
-      "social-comments-openapi-key"
-    );
-    if (!openAIKey) return alert("Please set OpenAI key.");
+    const config = await getConfig();
+    if (!config?.["social-comments-openapi-key"])
+      return alert("Please set OpenAI key.");
 
     const isFromFeed = !window.location.pathname.includes("reels");
     const wrapper = target?.closest(
@@ -115,7 +114,7 @@ export const handler = async () => {
       }
     }
 
-    const comment = await getComment(openAIKey, INSTAGRAM_PROMPTS, body);
+    const comment = await getComment(config, Domains.Instagram, body);
     if (comment.length) {
       imitateKeyInput(commentInputEl, comment);
     } else {

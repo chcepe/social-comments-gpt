@@ -1,8 +1,8 @@
 import ChatGPTIcon from "../components/ChatGPTIcon";
-import { CHATGPT_BTN_ID } from "./constants";
-import { LINKED_IN_PROMPTS } from "./prompts";
+
+import { CHATGPT_BTN_ID, Domains } from "./constants";
 import { getComment, delay } from "./shared";
-import { getStorageValue } from "./storage";
+import getConfig from "./config";
 
 export const injector = () => {
   document
@@ -31,10 +31,9 @@ export const handler = async () => {
     const btn = target?.closest(`#${CHATGPT_BTN_ID}`);
     if (!btn) return;
 
-    const openAIKey = await getStorageValue<string>(
-      "social-comments-openapi-key"
-    );
-    if (!openAIKey) return alert("Please set OpenAI key.");
+    const config = await getConfig();
+    if (!config["social-comments-openapi-key"])
+      return alert("Please set OpenAI key.");
 
     const wrapper = target?.closest(".feed-shared-update-v2");
     if (!wrapper) return;
@@ -53,7 +52,7 @@ export const handler = async () => {
         ) as HTMLElement
       )?.innerText || "";
 
-    const comment = await getComment(openAIKey, LINKED_IN_PROMPTS, content);
+    const comment = await getComment(config, Domains.LinkedIn, content);
     if (comment.length) {
       commentInputEl.innerHTML = comment;
     } else {

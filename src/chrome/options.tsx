@@ -11,17 +11,18 @@ import Section, { Props as SectionProps } from "../components/Section";
 import Tab, { TabItem } from "../components/Tab";
 import CommentStyleOptions from "./containers/CommentStyleOptions";
 import HashtagOptions from "./containers/HashtagOptions";
-import ModelOptions from "./containers/ModelOptions";
 import ExcludedWords from "./containers/ExcludedWords";
 import Prompts from "./containers/Prompts";
 import { Domains } from "../utils/constants";
 
+import "./common.css";
+
 const SECTIONS: (SectionProps & { comp: JSX.Element })[] = [
-  {
-    title: "OpenAI Model",
-    desc: "Model to use for OpenAI API. text-davinci-003 produces higher quality writing.",
-    comp: <ModelOptions />,
-  },
+  // {
+  //   title: "OpenAI Model",
+  //   desc: "Model to use for OpenAI API. text-davinci-003 produces higher quality writing.",
+  //   comp: <ModelOptions />,
+  // },
   {
     title: "Comment style",
     desc: "Whether generated comments will be professional, informal, etc.",
@@ -29,12 +30,12 @@ const SECTIONS: (SectionProps & { comp: JSX.Element })[] = [
   },
   {
     title: "Allow hashtags",
-    desc: "Would you like to include hashtags for every generate comments?",
+    desc: "Would you like to include hashtags for every generated comments?",
     comp: <HashtagOptions />,
   },
   {
-    title: "Exclude words",
-    desc: "Words that will not be mentioned in generated comments.",
+    title: "Words to avoid",
+    desc: "Words that will not be mentioned often in generated comments. It's not 100% guaranteed these words won't be mentioned.",
     comp: <ExcludedWords />,
   },
 ];

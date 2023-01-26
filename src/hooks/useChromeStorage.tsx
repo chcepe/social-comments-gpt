@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { StorageKeys } from "../utils/storage";
+import { StorageKeys } from "../utils/config";
 
 export default <T,>(key: StorageKeys, defaultValue: T) => {
   const [loading, setLoading] = React.useState(true);

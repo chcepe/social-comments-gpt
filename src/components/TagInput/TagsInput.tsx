@@ -7,9 +7,15 @@ interface Props {
   tags: string[];
   onChange: (value: string[]) => void;
   placeholder?: string;
+  allowDuplicates?: boolean;
 }
 
-const TagsInput: React.FC<Props> = ({ tags, onChange, placeholder }) => {
+const TagsInput: React.FC<Props> = ({
+  tags,
+  onChange,
+  placeholder,
+  allowDuplicates,
+}) => {
   const [inputText, setInputText] = React.useState("");
 
   const removeTags = (indexToRemove: number) => {
@@ -17,7 +23,11 @@ const TagsInput: React.FC<Props> = ({ tags, onChange, placeholder }) => {
   };
 
   const addTags = (value: string) => {
-    onChange([...tags, value]);
+    let newTags = [...tags, value];
+    if (!allowDuplicates) {
+      newTags = [...tags.filter((tag) => tag !== value), value];
+    }
+    onChange(newTags);
     setInputText("");
   };
 

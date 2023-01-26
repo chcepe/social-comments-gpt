@@ -1,12 +1,15 @@
+import { Config } from "./config";
+import { Domains } from "./constants";
+import { createPrompt } from "./prompts";
+
 export const getComment = async (
-  openAIkey: string,
-  prompts: string[],
+  config: Config,
+  domain: Domains,
   content: string
 ): Promise<string> => {
-  const prompt = prompts[Math.floor(Math.random() * prompts.length)];
   const body = {
-    model: "text-davinci-003",
-    prompt: prompt.replace("{commentContent}", content),
+    model: `text-davinci-00${config["opt-model-type"]}`,
+    prompt: createPrompt(domain, config, content),
     temperature: 0,
     max_tokens: 3000,
   };
@@ -15,7 +18,7 @@ export const getComment = async (
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${openAIkey}`,
+      Authorization: `Bearer ${config["social-comments-openapi-key"]}`,
     },
     body: JSON.stringify(body),
   };

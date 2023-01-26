@@ -1,7 +1,7 @@
 import * as React from "react";
 
 interface Props extends React.SVGProps<SVGSVGElement> {
-  linear?: boolean;
+  $linear?: boolean;
 }
 
 const IcPlus = (props: Props) => (
@@ -15,9 +15,9 @@ const IcPlus = (props: Props) => (
   >
     <path
       d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM15 11H11V15H9V11H5V9H9V5H11V9H15V11Z"
-      fill={props?.linear ? "url(#paint0_linear_37_12)" : "#000"}
+      fill={props?.$linear ? "url(#paint0_linear_37_12)" : "#000"}
     />
-    {props?.linear && (
+    {props?.$linear && (
       <defs>
         <linearGradient
           id="paint0_linear_37_12"

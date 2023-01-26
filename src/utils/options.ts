@@ -18,6 +18,7 @@ export enum CommentsStyle {
   INFORMAL = "informal",
   DIRECT = "direct",
   FRIENDLY = "friendly",
+  FUNNY = "funny",
   ANYTHING = "anything",
 }
 
@@ -42,6 +43,10 @@ export const COMMENTS_STYLE_OPTS: CheckboxOption[] = [
   {
     value: CommentsStyle.FRIENDLY,
     label: "Friendly",
+  },
+  {
+    value: CommentsStyle.FUNNY,
+    label: "Funny",
   },
 ];
 

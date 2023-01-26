@@ -7,6 +7,18 @@ export const InputWrapper = styled.div`
   width: 100%;
   position: relative;
 
+  span {
+    display: none;
+  }
+
+  &:focus-within span {
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    opacity: 0.5;
+  }
+
   .submit-btn {
     position: absolute;
     bottom: 15px;
@@ -23,16 +35,16 @@ export const InputWrapper = styled.div`
 `;
 
 export const Input = styled(TextareaAutosize)<{
-  edit?: boolean;
-  error?: boolean;
+  $edit?: boolean;
+  $error?: boolean;
 }>`
-  font-family: Arial, Helvetica, sans-serif;
   width: 100%;
   height: auto;
   max-height: 110px;
   resize: none;
-  border: 1px solid ${({ error }) => (error ? "#ff0000" : "rgba(0, 0, 0, 0.1)")};
-  border-radius: ${({ edit }) => (edit ? "0" : "16px")};
+  border: 1px solid
+    ${({ $error }) => ($error ? "#ff0000" : "rgba(0, 0, 0, 0.1)")};
+  border-radius: ${({ $edit }) => ($edit ? "0" : "16px")};
   padding: 24px;
   box-sizing: border-box;
 
@@ -68,13 +80,13 @@ export const Item = styled.div`
 `;
 
 export const Error = styled.div`
-  margin: 2px 0 0;
+  margin: 6px 0;
   color: #ff0000;
 
   span {
     background: rgba(0, 0, 0, 0.1);
     border-radius: 3px;
-    padding: 3px 5px;
+    padding: 5px 7px;
     color: #000;
   }
 `;

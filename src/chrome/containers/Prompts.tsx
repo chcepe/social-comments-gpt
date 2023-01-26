@@ -5,7 +5,7 @@ import Loading from "../../components/Loading";
 import Section from "../../components/Section";
 import { Domains } from "../../utils/constants";
 import useChromeStorage from "../../hooks/useChromeStorage";
-import { StorageKeys } from "../../utils/storage";
+import { StorageKeys } from "../../utils/config";
 import { INSTAGRAM_PROMPTS, LINKED_IN_PROMPTS } from "../../utils/prompts";
 
 interface Props {
@@ -33,7 +33,10 @@ const Prompts: React.FC<Props> = ({ type }) => {
   if (loading) return <Loading />;
 
   return (
-    <Section title={`Prompts for ${DomainLabel[type]}`}>
+    <Section
+      title={`Prompts for ${DomainLabel[type]}`}
+      desc="Random prompts that will be sent to OpenAI. {postContent} is replaced by post content."
+    >
       <PrompsForm onChange={setPrompts} items={prompts} />
     </Section>
   );

@@ -40,7 +40,7 @@ export const TagItem = styled.div`
   justify-content: center;
   color: #fff;
   padding: 0 8px;
-  font-size: 14px;
+  font-size: 12px;
   list-style: none;
   border-radius: 6px;
   background: linear-gradient(133.43deg, #4d0089 0%, #235f19 102.89%);

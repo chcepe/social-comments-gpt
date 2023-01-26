@@ -5,6 +5,7 @@ import ICPlus from "../IcPlus";
 import ICTrash from "../ICTrash";
 
 import * as Styled from "./PrompsForm.styled";
+import { validate } from "./utils";
 
 interface Props {
   onChange: (list: string[]) => void;
@@ -30,7 +31,7 @@ const PrompsForm: React.FC<Props> = ({ onChange, items = [] }) => {
       <TextArea type="add" onSubmit={handleAdd} />
       <Styled.List>
         {items.map((item, i) => (
-          <Styled.Item>
+          <Styled.Item key={item + i}>
             <TextArea
               key={item + i}
               type="edit"
@@ -55,13 +56,14 @@ interface TextAreaProps {
 
 const TextArea: React.FC<TextAreaProps> = ({ value, type, onSubmit }) => {
   const [text, setText] = React.useState(value || "");
-  const [showError, setShowError] = React.useState(false);
+  const [error, setError] = React.useState<string>("");
 
   const handleSubmit = () => {
-    if (!text.includes("{commentContent}")) {
-      setShowError(true);
+    const error = validate(text);
+    if (error.length) {
+      setError(error);
       setTimeout(() => {
-        setShowError(false);
+        setError("");
       }, 3000);
       return;
     }
@@ -85,21 +87,18 @@ const TextArea: React.FC<TextAreaProps> = ({ value, type, onSubmit }) => {
           }prompt here..`}
           onChange={(e) => {
             setText(e.target.value);
-            setShowError(false);
+            setError("");
           }}
-          edit={type === "edit"}
-          error={showError}
+          $edit={type === "edit"}
+          $error={error.length > 0}
         />
+        <span>{text.length}</span>
         {showSubmitBtn && (
-          <SubmitBtn onClick={handleSubmit} linear className="submit-btn" />
+          <SubmitBtn onClick={handleSubmit} $linear className="submit-btn" />
         )}
       </Styled.InputWrapper>
 
-      {showError && (
-        <Styled.Error>
-          You should include <span>{`{commentContent}`}</span> on your prompt!
-        </Styled.Error>
-      )}
+      {error && <Styled.Error dangerouslySetInnerHTML={{ __html: error }} />}
     </>
   );
 };
