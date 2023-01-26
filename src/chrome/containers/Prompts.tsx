@@ -5,6 +5,7 @@ import Loading from "../../components/Loading";
 import Section from "../../components/Section";
 import { Domains } from "../../utils/constants";
 import { getStorageValue } from "../../utils/storage";
+import useChromeStorage from "../../hooks/useChromeStorage";
 
 interface Props {
   type: Domains;
@@ -16,18 +17,12 @@ const DomainLabel: Record<Domains, string> = {
 };
 
 const Prompts: React.FC<Props> = ({ type }) => {
-  const [loading, setLoading] = React.useState<boolean>(true);
-  const [values, setValues] = React.useState<string[]>();
+  const [prompts, setPrompts, { loading }] = useChromeStorage<string[]>(
+    "opt-insta-prompts",
+    []
+  );
 
   const handleChange = (value: string[]) => {};
-
-  React.useEffect(() => {
-    (async () => {
-      const key = await getStorageValue<string[]>("opt-insta-prompts");
-      setLoading(false);
-      setValues(key);
-    })();
-  }, []);
 
   if (loading) return <Loading />;
 

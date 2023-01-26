@@ -3,15 +3,12 @@ import * as React from "react";
 import Checkbox from "../../components/Checkbox";
 import Loading from "../../components/Loading";
 import useChromeStorage from "../../hooks/useChromeStorage";
-import {
-  COMMENTS_STYLE_OPTS,
-  COMMENTS_STYLE_OPT_DEFAULT,
-} from "../../utils/options";
+import { MODEL_OPTS, MODEL_OPT_DEFAULT } from "../../utils/options";
 
-const CommentStyleOptions = () => {
+const ModelOptions = () => {
   const [selected, setSelected, { loading }] = useChromeStorage<string>(
-    "opt-comment-style",
-    COMMENTS_STYLE_OPT_DEFAULT
+    "opt-model-type",
+    MODEL_OPT_DEFAULT
   );
 
   if (loading) return <Loading />;
@@ -20,8 +17,8 @@ const CommentStyleOptions = () => {
     <>
       <Checkbox
         inline
-        options={COMMENTS_STYLE_OPTS}
-        selected={[selected || COMMENTS_STYLE_OPT_DEFAULT]}
+        options={MODEL_OPTS}
+        selected={[selected || MODEL_OPT_DEFAULT]}
         onChange={(selected) => {
           setSelected(selected[selected.length - 1]);
         }}
@@ -30,4 +27,4 @@ const CommentStyleOptions = () => {
   );
 };
 
-export default CommentStyleOptions;
+export default ModelOptions;

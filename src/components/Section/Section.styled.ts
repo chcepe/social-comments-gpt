@@ -22,4 +22,5 @@ export const Head = styled.div`
 
 export const Body = styled.div`
   margin: 16px 0;
+  width: 100%;
 `;

@@ -1,5 +1,17 @@
 import { CheckboxOption } from "../components/Checkbox/Checkbox";
 
+// Model Options
+export enum ModelOptions {
+  Davinci3 = "3",
+  Davinci2 = "2",
+}
+
+export const MODEL_OPT_DEFAULT = ModelOptions.Davinci3;
+export const MODEL_OPTS: CheckboxOption[] = [
+  { value: ModelOptions.Davinci2, label: "text-davinci-002" },
+  { value: ModelOptions.Davinci3, label: "text-davinci-003" },
+];
+
 // Comments Style Options
 export enum CommentsStyle {
   PROFESSIONAL = "professional",

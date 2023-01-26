@@ -3,23 +3,14 @@ import ReactDOM from "react-dom";
 
 import ICSettings from "../components/ICSettings";
 import Logo from "../components/Logo";
-import { getStorageValue, setStorageValue } from "../utils/storage";
+import useChromeStorage from "../hooks/useChromeStorage";
 import "./popup.css";
 
 const Popup = () => {
-  const [openAIKey, setOpenAIKey] = React.useState<string>("");
-
-  React.useEffect(() => {
-    (async () => {
-      const key = await getStorageValue<string>("social-comments-openapi-key");
-      setOpenAIKey(key);
-    })();
-  }, []);
-
-  React.useEffect(() => {
-    if (openAIKey.length)
-      setStorageValue("social-comments-openapi-key", openAIKey);
-  }, [openAIKey]);
+  const [openAIKey, setOpenAIKey, { loading }] = useChromeStorage<string>(
+    "social-comments-openapi-key",
+    ""
+  );
 
   const handleOptions = () => {
     chrome.runtime.openOptionsPage();
@@ -38,6 +29,7 @@ const Popup = () => {
           placeholder="xxxxxxxx"
           type="text"
           value={openAIKey}
+          disabled={loading}
           onChange={(e) => {
             setOpenAIKey(e.target.value);
           }}
