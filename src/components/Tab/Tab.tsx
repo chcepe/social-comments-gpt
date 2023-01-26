@@ -30,7 +30,7 @@ const Tab: React.FC<Props> = ({ tabs, initialTab }) => {
 
           return (
             <Styled.TabItem
-              key={tab.title + activeTab}
+              key={tab.title + i}
               onClick={() => handleTabChange(i)}
               active={isActive}
             >
@@ -43,7 +43,7 @@ const Tab: React.FC<Props> = ({ tabs, initialTab }) => {
           );
         })}
       </Styled.Tabs>
-      <Styled.Body>{tabs[activeTab].comp}</Styled.Body>
+      <Styled.Body key={activeTab}>{tabs[activeTab].comp}</Styled.Body>
     </Styled.Wrapper>
   );
 };

@@ -20,7 +20,7 @@ export type StorageKeys =
 
 export const getStorageValue = <T>(key: StorageKeys): Promise<T> =>
   new Promise((resolve, reject) =>
-    chrome.storage.sync.get([key], (result: Record<string, string>) => {
+    chrome.storage.local.get([key], (result: Record<string, string>) => {
       console.log({ key, result });
       resolve((result?.[key] || "") as T);
     })
@@ -31,7 +31,7 @@ export const setStorageValue = (
   value: any
 ): Promise<boolean> =>
   new Promise((resolve, reject) =>
-    chrome.storage.sync.set({ [key]: value }, () => {
+    chrome.storage.local.set({ [key]: value }, () => {
       resolve(true);
     })
   );

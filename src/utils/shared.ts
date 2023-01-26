@@ -6,7 +6,7 @@ export const getComment = async (
   const prompt = prompts[Math.floor(Math.random() * prompts.length)];
   const body = {
     model: "text-davinci-003",
-    prompt: prompt.replace("{content}", content),
+    prompt: prompt.replace("{commentContent}", content),
     temperature: 0,
     max_tokens: 3000,
   };

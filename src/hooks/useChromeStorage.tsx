@@ -11,7 +11,11 @@ export default <T,>(key: StorageKeys, defaultValue: T) => {
     chrome.storage["local"]
       .get(key)
       .then((res) => {
-        setState(res[key]);
+        if (key in res) {
+          setState(res[key]);
+        } else {
+          setState(defaultValue);
+        }
         setLoading(false);
       })
       .catch(() => {

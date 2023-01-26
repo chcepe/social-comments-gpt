@@ -4,8 +4,9 @@ import PrompsForm from "../../components/PromptsList/PrompsForm";
 import Loading from "../../components/Loading";
 import Section from "../../components/Section";
 import { Domains } from "../../utils/constants";
-import { getStorageValue } from "../../utils/storage";
 import useChromeStorage from "../../hooks/useChromeStorage";
+import { StorageKeys } from "../../utils/storage";
+import { INSTAGRAM_PROMPTS, LINKED_IN_PROMPTS } from "../../utils/prompts";
 
 interface Props {
   type: Domains;
@@ -17,18 +18,23 @@ const DomainLabel: Record<Domains, string> = {
 };
 
 const Prompts: React.FC<Props> = ({ type }) => {
-  const [prompts, setPrompts, { loading }] = useChromeStorage<string[]>(
-    "opt-insta-prompts",
-    []
-  );
+  let storageKey: StorageKeys = "opt-insta-prompts";
+  let defaultValue = INSTAGRAM_PROMPTS;
+  if (type === Domains.LinkedIn) {
+    storageKey = "opt-linkedin-prompts";
+    defaultValue = LINKED_IN_PROMPTS;
+  }
 
-  const handleChange = (value: string[]) => {};
+  const [prompts, setPrompts, { loading }] = useChromeStorage<string[]>(
+    storageKey,
+    defaultValue
+  );
 
   if (loading) return <Loading />;
 
   return (
     <Section title={`Prompts for ${DomainLabel[type]}`}>
-      <PrompsForm onChange={handleChange} values={[]} />
+      <PrompsForm onChange={setPrompts} items={prompts} />
     </Section>
   );
 };
