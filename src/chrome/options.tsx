@@ -77,9 +77,27 @@ const Options = () => {
   return (
     <Container>
       <Logo />
+
+      {/* Tabs */}
       <Main>
         <Tab tabs={TABS} />
       </Main>
+
+      {/* Copyright */}
+      <p>
+        <a href="https://social-comments-gpt.com/" target="_blank">
+          social-comments-gpt.com
+        </a>{" "}
+        &copy; 2022
+      </p>
+
+      {/* Credits */}
+      <p>
+        Made with ❤️ by{" "}
+        <a href="https://chcepe.github.io/" target="_blank">
+          chcepe
+        </a>
+      </p>
     </Container>
   );
 };

@@ -47,6 +47,13 @@ const Popup = () => {
         <span>Options</span>
         <ICSettings width={14} height={14} />
       </Styled.SettingsBtn>
+
+      <p>
+        <a href="https://social-comments-gpt.com/" target="_blank">
+          social-comments-gpt.com
+        </a>{" "}
+        &copy; 2022
+      </p>
     </Styled.Wrapper>
   );
 };
