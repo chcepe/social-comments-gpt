@@ -8,6 +8,7 @@ import {
   injector as instagramInjector,
   handler as instagramHandler,
 } from "./utils/instagram";
+import initAnnouncements from "./utils/announcements";
 
 const service: Record<Domains, [() => void, () => Promise<void>]> = {
   [Domains.LinkedIn]: [linkedInInjector, linkedInHandler],
@@ -21,6 +22,8 @@ const service: Record<Domains, [() => void, () => Promise<void>]> = {
   )?.[1] || "") as Domains;
 
   if (!ALLOWED_DOMAINS.includes(activeTabDomain)) return;
+
+  initAnnouncements(activeTabDomain);
 
   const [injector, handler] = service[activeTabDomain];
 

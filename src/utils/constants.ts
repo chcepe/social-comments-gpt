@@ -6,3 +6,6 @@ export enum Domains {
 }
 
 export const ALLOWED_DOMAINS: Domains[] = [Domains.LinkedIn, Domains.Instagram];
+
+export const ANNOUNCEMENTS_API =
+  "https://social-comments-gpt-site.vercel.app/api/announcements";
