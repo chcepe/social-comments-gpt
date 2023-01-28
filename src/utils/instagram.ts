@@ -41,102 +41,112 @@ export const injector = () => {
 };
 
 export const handler = async () => {
-  document.body.addEventListener("click", async (e) => {
-    const target = e.target as Element;
-    const btn = target?.closest(`#${CHATGPT_BTN_ID}`);
-    if (!btn) return;
+  const handleClick = async (e: MouseEvent) => {
+    {
+      const target = e.target as Element;
+      const btn = target?.closest(`#${CHATGPT_BTN_ID}`);
+      if (!btn) return;
 
-    const config = await getConfig();
-    if (!config?.["social-comments-openapi-key"])
-      return alert("Please set OpenAI key.");
+      const config = await getConfig();
+      if (!config?.["social-comments-openapi-key"])
+        return alert("Please set OpenAI key.");
 
-    const isFromFeed = !window.location.pathname.includes("reels");
-    const wrapper = target?.closest(
-      isFromFeed ? "article" : `div[role="dialog"]`
-    );
-    if (!wrapper) return;
-
-    const commentInputEl = wrapper.querySelector("textarea")!;
-    imitateKeyInput(commentInputEl, "");
-
-    commentInputEl.setAttribute("placeholder", "ChatGPT is thinking...");
-    commentInputEl.setAttribute("disabled", "true");
-
-    btn.setAttribute("disabled", "true");
-    btn.setAttribute("loading", "true");
-
-    wrapper.querySelectorAll("div");
-
-    let body = "";
-
-    if (isFromFeed) {
-      body = await getFeedContent(wrapper);
-    } else {
-      for (const el of Array.from([
-        ...document.querySelectorAll(
-          `div[aria-disabled="false"][role="button"] > div > div > span:first-of-type`
-        ),
-      ]).reverse()) {
-        if (isInViewport(el)) {
-          const parent =
-            el.parentElement?.parentElement?.parentElement?.parentElement;
-          const moreBtn = el.nextElementSibling;
-          if (moreBtn?.textContent?.includes("more")) {
-            (moreBtn as HTMLButtonElement)?.click();
-          }
-
-          await delay(2000);
-
-          body = reelsContentBodyParser(parent?.innerText || "");
-
-          break;
-        }
-      }
-    }
-
-    const comment = await getComment(config, Domains.Instagram, body);
-    if (comment.length) {
-      imitateKeyInput(commentInputEl, comment);
-    } else {
-      commentInputEl.setAttribute(
-        "placeholder",
-        "ChatGPT failed. Maybe update key and try again."
+      const isFromFeed = !window.location.pathname.includes("reels");
+      const wrapper = target?.closest(
+        isFromFeed ? "article" : `div[role="dialog"]`
       );
-      await delay(3000);
-    }
+      if (!wrapper) return;
 
-    commentInputEl.setAttribute("placeholder", "Add a comment..");
-    commentInputEl.removeAttribute("disabled");
+      const commentInputEl = wrapper.querySelector(
+        `form[method="POST"] textarea`
+      ) as HTMLTextAreaElement;
 
-    btn.removeAttribute("disabled");
-    btn.removeAttribute("loading");
-  });
-};
+      if (commentInputEl.value) {
+        imitateKeyInput(commentInputEl, "");
+        handleClick(e);
+        return;
+      }
 
-const getFeedContent = async (wrapper: Element): Promise<string> => {
-  let content = "";
-  for (const spanEl of wrapper.querySelectorAll("span")) {
-    if (
-      spanEl.parentElement?.previousElementSibling?.innerHTML === "&nbsp;" ||
-      spanEl?.parentElement?.previousElementSibling?.tagName === "H2"
-    ) {
-      const hasMore =
-        spanEl?.parentElement?.innerHTML?.includes(`role="button"`);
-      if (hasMore) {
-        (
-          spanEl?.parentElement?.querySelector(
-            `div[role="button"]`
-          ) as HTMLButtonElement
-        )?.click();
+      imitateKeyInput(commentInputEl, "");
+
+      commentInputEl.setAttribute("placeholder", "ChatGPT is thinking...");
+      commentInputEl.setAttribute("disabled", "true");
+
+      btn.setAttribute("disabled", "true");
+      btn.setAttribute("loading", "true");
+
+      wrapper.querySelectorAll("div");
+
+      let body = "";
+      if (isFromFeed) {
+        body = await getFeedContent(wrapper);
+      } else {
+        body = await getReelContent();
+      }
+
+      const comment = await getComment(config, Domains.Instagram, body);
+      if (comment.length) {
+        imitateKeyInput(commentInputEl, comment);
+      } else {
+        commentInputEl.setAttribute(
+          "placeholder",
+          "ChatGPT failed. Maybe update key and try again."
+        );
         await delay(3000);
       }
 
-      content = wrapper.querySelector("h1")?.textContent || "";
-      break;
+      commentInputEl.setAttribute("placeholder", "Add a comment..");
+      commentInputEl.removeAttribute("disabled");
+
+      btn.removeAttribute("disabled");
+      btn.removeAttribute("loading");
     }
-  }
+  };
+  document.body.addEventListener("click", handleClick);
+};
+
+const getInstagramContent = async (postId: string) => {
+  const resp = await fetch(`https://www.instagram.com/p/${postId}`);
+  if (!resp.ok) return "";
+
+  const instagramResp = await resp.text();
+
+  let content = decodeEntities(
+    [
+      ...instagramResp?.matchAll(
+        /<meta[^>]+property="og:title"[^>]+content="([^"]+)" \/>/g
+      ),
+    ]?.[0]?.[1] || ""
+  );
+
+  content =
+    [...content.matchAll(/[^>]+ on Instagram: "([^>]+)"/g)]?.[0]?.[1] || "";
 
   return content;
+};
+
+const getFeedContent = async (wrapper: Element): Promise<string> => {
+  const linksMatches = [...wrapper.innerHTML.matchAll(/href="\/p\/(.*?)\/"/g)];
+  const postId =
+    linksMatches.filter((link) => !link?.[1]?.includes("liked_by"))?.[0]?.[1] ||
+    "";
+
+  return getInstagramContent(postId);
+};
+
+const getReelContent = async (): Promise<string> => {
+  const pathName = window.location.pathname;
+  const postId =
+    [...pathName?.matchAll(/reels\/videos\/(.*)\//g)]?.[0]?.[1] || "";
+
+  return getInstagramContent(postId);
+};
+
+const decodeEntities = (str: string): string => {
+  const txt = document.createElement("textarea");
+  txt.innerHTML = str;
+
+  return txt.value;
 };
 
 const imitateKeyInput = (el: HTMLTextAreaElement, keyChar: string) => {
@@ -169,15 +179,4 @@ const createChatGPTBtn = (
   chatGPTBtn.innerHTML = ChatGPTIcon(22, color, CHATGPT_BTN_ID);
 
   return chatGPTBtn;
-};
-
-const isInViewport = (el: Element) => {
-  const rect = el.getBoundingClientRect();
-  return (
-    rect.top >= 0 &&
-    rect.left >= 0 &&
-    rect.bottom <=
-      (window.innerHeight || document.documentElement.clientHeight) &&
-    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-  );
 };
