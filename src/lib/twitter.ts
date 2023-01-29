@@ -8,6 +8,9 @@ export const injector = () => {
   document
     .querySelectorAll(`[aria-label="Add photos or video"]`)
     .forEach((el) => {
+      const pathname = window.location.pathname;
+      if (pathname === "/" || pathname === "/home") return;
+
       if (el.getAttribute("hasChatGPT") === "true") return;
       el.setAttribute("hasChatGPT", "true");
 

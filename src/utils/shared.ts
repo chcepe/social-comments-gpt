@@ -25,9 +25,9 @@ export const getComment = async (
   };
 
   const resp = await fetch("https://api.openai.com/v1/completions", options);
-  if (!resp.ok) return "";
-
   const chatGPTResp = await resp.json();
+
+  if (!resp.ok) return chatGPTResp?.["error"]?.["message"] || "";
 
   let comment = (chatGPTResp?.["choices"]?.[0]?.["text"] || "")
     .replace(/^\s+|\s+$/g, "")

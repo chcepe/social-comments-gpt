@@ -18,10 +18,13 @@ export const injector = () => {
       if (el.getAttribute("hasChatGPT") === "true") return;
       el.setAttribute("hasChatGPT", "true");
 
+      const icon = el?.querySelector("svg");
+      const iconColor = window.getComputedStyle(icon!)?.color || "#8e8e8e";
+
       if (isFromFeed) {
         const chatGPTBtn = createChatGPTBtn(
           "instafeed-chatgpt-btn",
-          "#262626",
+          iconColor,
           "FEED"
         );
         const emoji = el.querySelector("div:first-of-type");
@@ -29,7 +32,7 @@ export const injector = () => {
       } else {
         const chatGPTBtn = createChatGPTBtn(
           "instareels-chatgpt-btn",
-          "#8e8e8e",
+          iconColor,
           "REELS"
         );
         const emojiWrapper = el.querySelector("div:first-of-type");

@@ -14,6 +14,7 @@ export default () => {
     }
 
     .${ANNOUNCEMENT_ALERT_WRAPPER} p {
+      color: #000;
       margin: 0;
     }
 
