@@ -1,8 +1,8 @@
 import ChatGPTIcon from "../components/ChatGPTIcon";
 
-import { CHATGPT_BTN_ID, Domains } from "./constants";
-import { getComment, delay } from "./shared";
-import getConfig from "./config";
+import { CHATGPT_BTN_ID, Domains } from "../utils/constants";
+import { getComment, delay } from "../utils/shared";
+import getConfig from "../utils/config";
 
 export const injector = () => {
   document

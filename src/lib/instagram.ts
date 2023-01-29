@@ -1,9 +1,8 @@
 import ChatGPTIcon from "../components/ChatGPTIcon";
 
-import { CHATGPT_BTN_ID, Domains } from "./constants";
-import { reelsContentBodyParser } from "./parser";
-import { getComment, delay } from "./shared";
-import getConfig from "./config";
+import { CHATGPT_BTN_ID, Domains } from "../utils/constants";
+import { getComment, delay, imitateKeyInput } from "../utils/shared";
+import getConfig from "../utils/config";
 
 type PostType = "FEED" | "REELS";
 
@@ -147,21 +146,6 @@ const decodeEntities = (str: string): string => {
   txt.innerHTML = str;
 
   return txt.value;
-};
-
-const imitateKeyInput = (el: HTMLTextAreaElement, keyChar: string) => {
-  const keyboardEventInit = {
-    bubbles: false,
-    cancelable: false,
-    composed: false,
-    key: "",
-    code: "",
-    location: 0,
-  };
-  el.dispatchEvent(new KeyboardEvent("keydown", keyboardEventInit));
-  el.value = keyChar;
-  el.dispatchEvent(new KeyboardEvent("keyup", keyboardEventInit));
-  el.dispatchEvent(new Event("change", { bubbles: true }));
 };
 
 const insertAfter = (referenceNode: Element, newNode: Element) => {
