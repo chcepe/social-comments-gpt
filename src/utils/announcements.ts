@@ -58,7 +58,10 @@ export default (domain: Domains) => {
     const allAnnouncements = latestAnnouncements
       .map(
         (a) =>
-          `<div class="${ANNOUNCEMENT_ALERT_WRAPPER}">
+          `<div class="${ANNOUNCEMENT_ALERT_WRAPPER} ${domain.replace(
+            ".com",
+            ""
+          )}">
             <div class="close-btn" announcement-id="${a.id}"></div>
             <p class="title">${a.title}</p>
             <p>${a.message}</p>
@@ -75,7 +78,12 @@ export default (domain: Domains) => {
       case Domains.Instagram:
         document
           .querySelectorAll(`[data-visualcompletion="loading-state"]`)?.[1]
-          ?.parentElement?.insertAdjacentHTML("beforebegin", allAnnouncements);
+          ?.parentElement?.insertAdjacentHTML("afterbegin", allAnnouncements);
+        break;
+      case Domains.Twitter:
+        document
+          .querySelector(`nav[aria-live="polite"]`)
+          ?.insertAdjacentHTML("afterend", allAnnouncements);
         break;
     }
   })();

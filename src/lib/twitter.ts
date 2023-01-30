@@ -65,13 +65,6 @@ export const handler = async () => {
   });
 };
 
-function selectText(element: Element) {
-  var range = document.createRange();
-  range.selectNode(element);
-  window?.getSelection()?.removeAllRanges();
-  window?.getSelection()?.addRange(range);
-}
-
 const setTweetText = async (commentInputWrapper: Element, text: string) => {
   const editable = commentInputWrapper?.querySelector(`[contenteditable]`);
   editable?.addEventListener("selectAll", () => {

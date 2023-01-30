@@ -37,6 +37,11 @@ export default () => {
         right: 14px;
     }
 
+  .${ANNOUNCEMENT_ALERT_WRAPPER}.twitter {
+    font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 8px 12px;
+  }
+
     .instafeed-chatgpt-btn {
       padding: 8px 10px 8px 0;
     }
