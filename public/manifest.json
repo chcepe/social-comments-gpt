@@ -2,8 +2,8 @@
   "manifest_version": 3,
 
   "name": "Social Comments GPT",
-  "description": "Create engaging comments on social media, powered by ChatGPT.",
-  "version": "1.3",
+  "description": "Create engaging comments on social media, powered by ChatGPT",
+  "version": "1.5",
 
   "icons": {
     "16": "icon16.png",
@@ -39,5 +39,12 @@
 
   "permissions": ["storage"],
 
-  "host_permissions": ["https://social-comments-gpt-site.vercel.app/"]
+  "host_permissions": [
+    "https://social-comments-gpt-site.vercel.app/",
+    "https://social-comments-gpt.com/"
+  ],
+
+  "background": {
+    "service_worker": "js/background.js"
+  }
 }
