@@ -1,5 +1,6 @@
 import { version } from "react";
 import { ANNOUNCEMENTS_API, Domains } from "./constants";
+import { generateAnnouncementId } from "./generators";
 
 type Announcement = {
   id: string;
@@ -9,7 +10,6 @@ type Announcement = {
 };
 
 export const ANNOUNCEMENT_ALERT_WRAPPER = "social-comments-gpt-alert";
-const PREFIX = "social-comments-gpt-announcement-";
 
 export default (domain: Domains) => {
   document.body.addEventListener("click", async (e) => {
@@ -45,20 +45,23 @@ export default (domain: Domains) => {
     const announcements: Announcement[] = await resp.json();
 
     let latestAnnouncements = announcements.filter(
-      (a) => a.version >= parseFloat(currentVersion)
+      (a) => a.version === parseFloat(currentVersion)
     );
 
     latestAnnouncements = await asyncFilter(latestAnnouncements, async (a) => {
-      const isRead = await isAnnouncementRead(
+      const isSeen = await isAnnouncementSeen(
         generateAnnouncementId(a.id, domain)
       );
-      return !isRead;
+      return !isSeen;
     });
 
     const allAnnouncements = latestAnnouncements
       .map(
         (a) =>
-          `<div class="${ANNOUNCEMENT_ALERT_WRAPPER}">
+          `<div class="${ANNOUNCEMENT_ALERT_WRAPPER} ${domain.replace(
+            ".com",
+            ""
+          )}">
             <div class="close-btn" announcement-id="${a.id}"></div>
             <p class="title">${a.title}</p>
             <p>${a.message}</p>
@@ -75,22 +78,24 @@ export default (domain: Domains) => {
       case Domains.Instagram:
         document
           .querySelectorAll(`[data-visualcompletion="loading-state"]`)?.[1]
-          ?.parentElement?.insertAdjacentHTML("beforebegin", allAnnouncements);
+          ?.parentElement?.insertAdjacentHTML("afterbegin", allAnnouncements);
+        break;
+      case Domains.Twitter:
+        document
+          .querySelector(`nav[aria-live="polite"]`)
+          ?.insertAdjacentHTML("afterend", allAnnouncements);
         break;
     }
   })();
 };
 
-const isAnnouncementRead = (announcementId: string): Promise<boolean> => {
+const isAnnouncementSeen = (announcementId: string): Promise<boolean> => {
   return new Promise((resolve, reject) =>
     chrome.storage.local.get([announcementId], (result) => {
       resolve(`${announcementId}` in result);
     })
   );
 };
-
-const generateAnnouncementId = (id: string, domain: Domains) =>
-  `${PREFIX}-${id}-${domain}`;
 
 const asyncFilter = async <T>(
   arr: T[],

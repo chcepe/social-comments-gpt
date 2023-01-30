@@ -6,6 +6,7 @@ import Container from "../components/Container";
 import IcInstagram from "../components/IcInstagram";
 import IcLinkedIn from "../components/IcLinkedIn";
 import IcSettings from "../components/ICSettings";
+import ICTwitter from "../components/IcTwitter";
 import Logo from "../components/Logo";
 import Section, { Props as SectionProps } from "../components/Section";
 import Tab, { TabItem } from "../components/Tab";
@@ -66,6 +67,11 @@ const TABS: TabItem[] = [
     title: "LinkedIn Prompts",
     comp: <Prompts type={Domains.LinkedIn} />,
     icon: <IcLinkedIn />,
+  },
+  {
+    title: "LinkedIn Prompts",
+    comp: <Prompts type={Domains.Twitter} />,
+    icon: <ICTwitter />,
   },
 ];
 

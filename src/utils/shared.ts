@@ -1,7 +1,7 @@
 import { Config } from "./config";
 import { Domains } from "./constants";
 import { HashtagOptions } from "./options";
-import { createPrompt } from "./prompts";
+import { createPrompt } from "./generators";
 
 export const getComment = async (
   config: Config,
@@ -25,9 +25,9 @@ export const getComment = async (
   };
 
   const resp = await fetch("https://api.openai.com/v1/completions", options);
-  if (!resp.ok) return "";
-
   const chatGPTResp = await resp.json();
+
+  if (!resp.ok) return chatGPTResp?.["error"]?.["message"] || "";
 
   let comment = (chatGPTResp?.["choices"]?.[0]?.["text"] || "")
     .replace(/^\s+|\s+$/g, "")
@@ -41,3 +41,35 @@ export const getComment = async (
 };
 
 export const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
+export const closestSibling = (
+  element: Element,
+  query: string
+): Element | null => {
+  const parent = element.parentElement;
+  if (parent === null) return null;
+  const sibling = parent.querySelector(query);
+  if (sibling !== null) return sibling;
+  return closestSibling(parent, query);
+};
+
+export const setInnerHTML = (element: Element, html: string) => {
+  try {
+    element.innerHTML = html;
+  } catch {}
+};
+
+export const imitateKeyInput = (el: HTMLTextAreaElement, keyChar: string) => {
+  const keyboardEventInit = {
+    bubbles: false,
+    cancelable: false,
+    composed: false,
+    key: "",
+    code: "",
+    location: 0,
+  };
+  el.dispatchEvent(new KeyboardEvent("keydown", keyboardEventInit));
+  el.value = keyChar;
+  el.dispatchEvent(new KeyboardEvent("keyup", keyboardEventInit));
+  el.dispatchEvent(new Event("change", { bubbles: true }));
+};

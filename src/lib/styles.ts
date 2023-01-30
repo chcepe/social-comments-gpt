@@ -1,5 +1,5 @@
-import { ANNOUNCEMENT_ALERT_WRAPPER } from "./announcements";
-import { CHATGPT_BTN_ID } from "./constants";
+import { ANNOUNCEMENT_ALERT_WRAPPER } from "../utils/announcements";
+import { CHATGPT_BTN_ID } from "../utils/constants";
 
 export default () => {
   const styles = `<style>
@@ -14,6 +14,7 @@ export default () => {
     }
 
     .${ANNOUNCEMENT_ALERT_WRAPPER} p {
+      color: #000;
       margin: 0;
     }
 
@@ -36,6 +37,11 @@ export default () => {
         right: 14px;
     }
 
+  .${ANNOUNCEMENT_ALERT_WRAPPER}.twitter {
+    font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 8px 12px;
+  }
+
     .instafeed-chatgpt-btn {
       padding: 8px 10px 8px 0;
     }
@@ -57,6 +63,24 @@ export default () => {
     .insta-with-chatgpt {
       display: flex !important; 
       align-items: center;
+    }
+
+    #${CHATGPT_BTN_ID}.twitter{
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 5px;
+    }
+
+    #${CHATGPT_BTN_ID}.twitter svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    #${CHATGPT_BTN_ID}{
+      cursor: pointer;
     }
 
     #${CHATGPT_BTN_ID}:disabled, #${CHATGPT_BTN_ID}[disabled="true"] {
