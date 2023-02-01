@@ -69,7 +69,7 @@ const TABS: TabItem[] = [
     icon: <IcLinkedIn />,
   },
   {
-    title: "LinkedIn Prompts",
+    title: "Twitter Prompts",
     comp: <Prompts type={Domains.Twitter} />,
     icon: <ICTwitter />,
   },

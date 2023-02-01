@@ -24,7 +24,7 @@ export default (domain: Domains) => {
       domain
     );
 
-    chrome.storage.local.set({ [announcementId]: true }).catch(() => {
+    chrome?.storage?.local?.set({ [announcementId]: true }).catch(() => {
       console.warn(`useChromeStorage set error: ${announcementId}`);
     });
   });
@@ -44,11 +44,7 @@ export default (domain: Domains) => {
 
     const announcements: Announcement[] = await resp.json();
 
-    let latestAnnouncements = announcements.filter(
-      (a) => a.version === parseFloat(currentVersion)
-    );
-
-    latestAnnouncements = await asyncFilter(latestAnnouncements, async (a) => {
+    const latestAnnouncements = await asyncFilter(announcements, async (a) => {
       const isSeen = await isAnnouncementSeen(
         generateAnnouncementId(a.id, domain)
       );
@@ -91,7 +87,7 @@ export default (domain: Domains) => {
 
 const isAnnouncementSeen = (announcementId: string): Promise<boolean> => {
   return new Promise((resolve, reject) =>
-    chrome.storage.local.get([announcementId], (result) => {
+    chrome?.storage?.local?.get([announcementId], (result) => {
       resolve(`${announcementId}` in result);
     })
   );

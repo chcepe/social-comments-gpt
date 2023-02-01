@@ -1,18 +1,18 @@
-import appendStyles from "./lib/styles";
-import { ALLOWED_DOMAINS, Domains } from "./utils/constants";
+import appendStyles from "../lib/styles";
+import { ALLOWED_DOMAINS, Domains } from "../utils/constants";
 import {
   injector as linkedInInjector,
   handler as linkedInHandler,
-} from "./lib/linkedin";
+} from "../lib/linkedin";
 import {
   injector as instagramInjector,
   handler as instagramHandler,
-} from "./lib/instagram";
+} from "../lib/instagram";
 import {
   injector as twitterInjector,
   handler as twitterHandler,
-} from "./lib/twitter";
-import initAnnouncements from "./utils/announcements";
+} from "../lib/twitter";
+import initAnnouncements from "../utils/announcements";
 
 const service: Record<Domains, [() => void, () => Promise<void>]> = {
   [Domains.LinkedIn]: [linkedInInjector, linkedInHandler],

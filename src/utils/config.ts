@@ -37,7 +37,7 @@ export const DEFAULT_CONFIG: Config = {
 
 export default (): Promise<Config> =>
   new Promise((resolve, reject) =>
-    chrome.storage.local.get(OPTIONS, (result) => {
+    chrome?.storage?.local?.get(OPTIONS, (result) => {
       const config = Object.keys(DEFAULT_CONFIG).reduce((a, c) => {
         return {
           ...a,

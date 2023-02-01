@@ -7,7 +7,8 @@ module.exports = {
   entry: {
     popup: path.join(srcDir, "chrome/popup.tsx"),
     options: path.join(srcDir, "chrome/options.tsx"),
-    content_script: path.join(srcDir, "content_script.ts"),
+    content_script: path.join(srcDir, "chrome/content_script.ts"),
+    background: path.join(srcDir, "chrome/background.ts"),
   },
   output: {
     path: path.join(__dirname, "../dist/js"),
@@ -17,7 +18,7 @@ module.exports = {
     splitChunks: {
       name: "vendor",
       chunks(chunk) {
-        return chunk;
+        return chunk.name !== "background";
       },
     },
   },

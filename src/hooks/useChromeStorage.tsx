@@ -30,7 +30,7 @@ export default <T,>(key: StorageKeys, defaultValue: T) => {
 
   React.useEffect(() => {
     if (!isInitialized.current) return;
-    chrome.storage.local.set({ [key]: state }).catch(() => {
+    chrome?.storage?.local?.set({ [key]: state }).catch(() => {
       console.warn(`useChromeStorage set error: ${key}`);
     });
   }, [key, state]);
