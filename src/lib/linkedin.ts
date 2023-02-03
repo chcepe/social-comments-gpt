@@ -1,6 +1,6 @@
 import ChatGPTIcon from "../components/ChatGPTIcon";
 
-import { CHATGPT_BTN_ID, Domains } from "../utils/constants";
+import { CHATGPT_BTN_ID, Domains, ERROR_MESSAGE } from "../utils/constants";
 import { getComment, delay, showAPIKeyError } from "../utils/shared";
 import getConfig from "../utils/config";
 import { notyf } from "../chrome/content_script";
@@ -33,7 +33,8 @@ export const handler = async () => {
     if (!btn) return;
 
     const config = await getConfig();
-    if (!config["social-comments-openapi-key"]) return showAPIKeyError();
+    if (!config["social-comments-openapi-key"])
+      return showAPIKeyError(Domains.LinkedIn);
 
     notyf?.dismissAll();
 
@@ -58,10 +59,7 @@ export const handler = async () => {
     if (comment.length) {
       commentInputEl.innerHTML = comment;
     } else {
-      commentInputEl.setAttribute(
-        "data-placeholder",
-        "ChatGPT failed. Maybe update key and try again."
-      );
+      commentInputEl.setAttribute("data-placeholder", ERROR_MESSAGE);
       await delay(3000);
     }
 

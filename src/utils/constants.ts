@@ -2,6 +2,9 @@ export const CHATGPT_BTN_ID = "chatgpt-btn";
 
 export const TOAST_CLASSNAME = "social-comments-toast";
 
+export const ERROR_MESSAGE =
+  "ChatGPT failed. Follow the instructions & try again.";
+
 export enum Domains {
   LinkedIn = "linkedin.com",
   Instagram = "instagram.com",

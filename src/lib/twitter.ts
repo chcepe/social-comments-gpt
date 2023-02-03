@@ -1,6 +1,6 @@
 import ChatGPTIcon from "../components/ChatGPTIcon";
 
-import { CHATGPT_BTN_ID, Domains } from "../utils/constants";
+import { CHATGPT_BTN_ID, Domains, ERROR_MESSAGE } from "../utils/constants";
 import {
   getComment,
   delay,
@@ -40,7 +40,8 @@ export const handler = async () => {
     if (!btn) return;
 
     const config = await getConfig();
-    if (!config?.["social-comments-openapi-key"]) return showAPIKeyError();
+    if (!config?.["social-comments-openapi-key"])
+      return showAPIKeyError(Domains.Twitter);
 
     notyf?.dismissAll();
 
@@ -61,10 +62,8 @@ export const handler = async () => {
     if (comment.length) {
       setTweetText(commentInputWrapper, comment);
     } else {
-      setTweetText(
-        commentInputWrapper,
-        "ChatGPT failed. Maybe update key and try again."
-      );
+      await delay(1000);
+      setTweetText(commentInputWrapper, ERROR_MESSAGE);
     }
 
     btn.setAttribute("disabled", "false");

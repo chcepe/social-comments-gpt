@@ -126,6 +126,10 @@ export default () => {
       text-decoration: none;
     }
 
+    .${TOAST_CLASSNAME}.twitter {
+      font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
     ${notyfCSS}
     </style>`;
 

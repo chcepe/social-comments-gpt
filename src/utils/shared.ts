@@ -35,7 +35,7 @@ export const getComment = async (
       duration: 0,
       dismissible: true,
       message: `<div class="title">${title}</div><p>${message}</p><p class="small">See <a href="https://help.openai.com/en/articles/6891839-api-error-code-guidance" target="_blank">OpenAI API error guidance</a> for more info.</p>`,
-      className: TOAST_CLASSNAME,
+      className: `${TOAST_CLASSNAME} ${domain.replace(/([.]\w+)$/, "")}`,
       ripple: false,
     });
     return "";
@@ -86,12 +86,12 @@ export const imitateKeyInput = (el: HTMLTextAreaElement, keyChar: string) => {
   el.dispatchEvent(new Event("change", { bubbles: true }));
 };
 
-export const showAPIKeyError = () => {
+export const showAPIKeyError = (domain: Domains) => {
   notyf?.error({
     duration: 3000,
     dismissible: true,
     message: `<div class="title">API key is not set</div><p>Please set OpenAI API key in the popup.</p><p class="small">See <a href="${WELCOME_PAGE}" target="_blank">onboarding</a> for more info.</p>`,
-    className: TOAST_CLASSNAME,
+    className: `${TOAST_CLASSNAME} ${domain.replace(/([.]\w+)$/, "")}`,
     ripple: false,
   });
 };
