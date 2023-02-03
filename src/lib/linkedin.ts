@@ -1,8 +1,9 @@
 import ChatGPTIcon from "../components/ChatGPTIcon";
 
 import { CHATGPT_BTN_ID, Domains } from "../utils/constants";
-import { getComment, delay } from "../utils/shared";
+import { getComment, delay, showAPIKeyError } from "../utils/shared";
 import getConfig from "../utils/config";
+import { notyf } from "../chrome/content_script";
 
 export const injector = () => {
   document
@@ -32,8 +33,9 @@ export const handler = async () => {
     if (!btn) return;
 
     const config = await getConfig();
-    if (!config["social-comments-openapi-key"])
-      return alert("Please set OpenAI key.");
+    if (!config["social-comments-openapi-key"]) return showAPIKeyError();
+
+    notyf?.dismissAll();
 
     const wrapper = target?.closest(".feed-shared-update-v2");
     if (!wrapper) return;

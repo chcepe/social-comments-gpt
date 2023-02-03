@@ -4,8 +4,9 @@ import ReactDOM from "react-dom";
 import ICSettings from "../components/ICSettings";
 import Logo from "../components/Logo";
 import useChromeStorage from "../hooks/useChromeStorage";
-import "./common.css";
+import { WELCOME_PAGE } from "../utils/constants";
 import * as Styled from "./popup.styled";
+import "./common.css";
 
 const Popup = () => {
   const [openAIKey, setOpenAIKey, { loading }] = useChromeStorage<string>(
@@ -37,7 +38,7 @@ const Popup = () => {
       {/* Help */}
       <p>
         Have some questions? More information{" "}
-        <a target="_blank" href="https://github.com/chcepe/social-comments-gpt">
+        <a target="_blank" href={WELCOME_PAGE}>
           here.
         </a>
       </p>

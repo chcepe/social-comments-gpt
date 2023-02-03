@@ -1,3 +1,5 @@
+import { Notyf } from "notyf";
+
 import appendStyles from "../lib/styles";
 import { ALLOWED_DOMAINS, Domains } from "../utils/constants";
 import {
@@ -12,13 +14,18 @@ import {
   injector as twitterInjector,
   handler as twitterHandler,
 } from "../lib/twitter";
-import initAnnouncements from "../utils/announcements";
+import {
+  injector as announcementInjector,
+  handler as announcementHandler,
+} from "../utils/announcements";
 
 const service: Record<Domains, [() => void, () => Promise<void>]> = {
   [Domains.LinkedIn]: [linkedInInjector, linkedInHandler],
   [Domains.Instagram]: [instagramInjector, instagramHandler],
   [Domains.Twitter]: [twitterInjector, twitterHandler],
 };
+
+export let notyf: Notyf | undefined;
 
 (() => {
   const hostname = window.location.hostname;
@@ -28,11 +35,15 @@ const service: Record<Domains, [() => void, () => Promise<void>]> = {
 
   if (!ALLOWED_DOMAINS.includes(activeTabDomain)) return;
 
-  initAnnouncements(activeTabDomain);
-
   const [injector, handler] = service[activeTabDomain];
 
+  notyf = new Notyf();
+
+  announcementHandler(activeTabDomain);
   appendStyles();
   handler();
-  setInterval(injector, 100);
+  setInterval(injector, 200);
+  setInterval(() => {
+    announcementInjector(activeTabDomain);
+  }, 1000);
 })();

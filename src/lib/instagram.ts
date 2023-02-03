@@ -1,8 +1,14 @@
 import ChatGPTIcon from "../components/ChatGPTIcon";
 
 import { CHATGPT_BTN_ID, Domains } from "../utils/constants";
-import { getComment, delay, imitateKeyInput } from "../utils/shared";
+import {
+  getComment,
+  delay,
+  imitateKeyInput,
+  showAPIKeyError,
+} from "../utils/shared";
 import getConfig from "../utils/config";
+import { notyf } from "../chrome/content_script";
 
 type PostType = "FEED" | "REELS";
 
@@ -27,7 +33,10 @@ export const injector = () => {
           iconColor,
           "FEED"
         );
-        const emoji = el.querySelector("div:first-of-type");
+        const emoji = el.querySelector(
+          "div:first-of-type button:first-of-type"
+        );
+        emoji?.parentElement?.setAttribute("force-flex", "true");
         insertAfter(emoji!, chatGPTBtn);
       } else {
         const chatGPTBtn = createChatGPTBtn(
@@ -35,7 +44,9 @@ export const injector = () => {
           iconColor,
           "REELS"
         );
-        const emojiWrapper = el.querySelector("div:first-of-type");
+        const emojiWrapper = el.querySelector(
+          "div:first-of-type > div:first-of-type"
+        );
         emojiWrapper?.classList.add("insta-with-chatgpt");
         emojiWrapper?.prepend(chatGPTBtn);
       }
@@ -50,8 +61,9 @@ export const handler = async () => {
       if (!btn) return;
 
       const config = await getConfig();
-      if (!config?.["social-comments-openapi-key"])
-        return alert("Please set OpenAI key.");
+      if (!config?.["social-comments-openapi-key"]) return showAPIKeyError();
+
+      notyf?.dismissAll();
 
       const isFromFeed = !window.location.pathname.includes("reels");
       const wrapper = target?.closest(

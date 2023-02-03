@@ -1,5 +1,7 @@
 export const CHATGPT_BTN_ID = "chatgpt-btn";
 
+export const TOAST_CLASSNAME = "social-comments-toast";
+
 export enum Domains {
   LinkedIn = "linkedin.com",
   Instagram = "instagram.com",
