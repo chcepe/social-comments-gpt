@@ -22,8 +22,8 @@ const Popup = () => {
     <Styled.Wrapper>
       <Logo className="logo" />
 
-      {/* OpenAPI Key */}
-      <label htmlFor="open-api-key">Enter your OpenAPI key:</label>
+      {/* OPENAI API Key */}
+      <label htmlFor="open-api-key">Enter your OpenAI API key:</label>
       <input
         id="open-api-key"
         placeholder="xxxxxxxx"
