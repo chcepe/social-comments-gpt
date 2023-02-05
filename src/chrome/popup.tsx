@@ -1,6 +1,7 @@
 import * as React from "react";
 import ReactDOM from "react-dom";
 
+import Credits from "../components/Credits";
 import ICSettings from "../components/ICSettings";
 import Logo from "../components/Logo";
 import useChromeStorage from "../hooks/useChromeStorage";
@@ -49,12 +50,7 @@ const Popup = () => {
         <ICSettings width={14} height={14} />
       </Styled.SettingsBtn>
 
-      <p>
-        <a href="https://social-comments-gpt.com/" target="_blank">
-          social-comments-gpt.com
-        </a>{" "}
-        &copy; 2022
-      </p>
+      <Credits bmacSize="small" />
     </Styled.Wrapper>
   );
 };

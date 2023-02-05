@@ -10,6 +10,7 @@ import ICTwitter from "../components/IcTwitter";
 import Logo from "../components/Logo";
 import Section, { Props as SectionProps } from "../components/Section";
 import Tab, { TabItem } from "../components/Tab";
+import Credits from "../components/Credits";
 import CommentStyleOptions from "./containers/CommentStyleOptions";
 import HashtagOptions from "./containers/HashtagOptions";
 import ExcludedWords from "./containers/ExcludedWords";
@@ -83,27 +84,12 @@ const Options = () => {
   return (
     <Container>
       <Logo />
-
       {/* Tabs */}
       <Main>
         <Tab tabs={TABS} />
       </Main>
 
-      {/* Copyright */}
-      <p>
-        <a href="https://social-comments-gpt.com/" target="_blank">
-          social-comments-gpt.com
-        </a>{" "}
-        &copy; 2022
-      </p>
-
-      {/* Credits */}
-      <p>
-        Made with ❤️ by{" "}
-        <a href="https://chcepe.github.io/" target="_blank">
-          chcepe
-        </a>
-      </p>
+      <Credits bmacSize="large" />
     </Container>
   );
 };
