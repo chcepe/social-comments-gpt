@@ -91,7 +91,7 @@ export const generateErrorMessage = (code: number): ErrorMessage => {
   }
 
   return {
-    title: "OpenAI Error: Issue on our servers.",
+    title: `OpenAI ${code} Error: Issue on our servers.`,
     message: `Retry your request after a brief wait and contact us if the issue persists. Check the <a href="https://status.openai.com/" target="_blank">status page.</a>`,
   };
 };
