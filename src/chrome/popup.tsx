@@ -4,8 +4,9 @@ import ReactDOM from "react-dom";
 import ICSettings from "../components/ICSettings";
 import Logo from "../components/Logo";
 import useChromeStorage from "../hooks/useChromeStorage";
-import "./common.css";
+import { WELCOME_PAGE } from "../utils/constants";
 import * as Styled from "./popup.styled";
+import "./common.css";
 
 const Popup = () => {
   const [openAIKey, setOpenAIKey, { loading }] = useChromeStorage<string>(
@@ -21,8 +22,8 @@ const Popup = () => {
     <Styled.Wrapper>
       <Logo className="logo" />
 
-      {/* OpenAPI Key */}
-      <label htmlFor="open-api-key">Enter your OpenAPI key:</label>
+      {/* OPENAI API Key */}
+      <label htmlFor="open-api-key">Enter your OpenAI API key:</label>
       <input
         id="open-api-key"
         placeholder="xxxxxxxx"
@@ -37,7 +38,7 @@ const Popup = () => {
       {/* Help */}
       <p>
         Have some questions? More information{" "}
-        <a target="_blank" href="https://github.com/chcepe/social-comments-gpt">
+        <a target="_blank" href={WELCOME_PAGE}>
           here.
         </a>
       </p>

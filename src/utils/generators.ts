@@ -69,3 +69,29 @@ export const createPrompt = (
 
 export const generateAnnouncementId = (id: string, domain: Domains) =>
   `social-comments-gpt-announcement-${id}-${domain}`;
+
+type ErrorMessage = { title: string; message: string };
+export const generateErrorMessage = (code: number): ErrorMessage => {
+  switch (code) {
+    case 400:
+      return {
+        title: "OpenAI 400 Error: Content is too long",
+        message: `The content of this posts seems to be too long. It exceed the limit of character allowed by OpenAI.`,
+      };
+    case 401:
+      return {
+        title: "OpenAI 401 Error: Invalid API Key",
+        message: `Ensure that the API key you provided is correct, clear your browser cache, or <a href="https://platform.openai.com/account/api-keys" target="_blank">generate a new one</a>.`,
+      };
+    case 429:
+      return {
+        title: "OpenAI 429 Error: You are sending requests too quickly.",
+        message: `Please slow down your requests. Read the <a href="https://platform.openai.com/docs/guides/rate-limits" target="_blank">Rate limit guide</a>.`,
+      };
+  }
+
+  return {
+    title: "OpenAI Error: Issue on our servers.",
+    message: `Retry your request after a brief wait and contact us if the issue persists. Check the <a href="https://status.openai.com/" target="_blank">status page.</a>`,
+  };
+};
